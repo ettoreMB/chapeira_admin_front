@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Divider, VStack,HStack, Button, SimpleGrid} from '@chakra-ui/react' 
+import { Box, Flex, Heading, Divider, VStack,HStack, Button, SimpleGrid, Select} from '@chakra-ui/react' 
 import Header from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 import {Input} from '../../components/Form/Input';
@@ -15,6 +15,7 @@ import { convertDate } from '../../masks/masks';
 import { useRouter } from 'next/router';
 import { queryClient } from '../../services/queryClient';
 import axios from 'axios';
+import { useStores } from "../../services/hooks/useStores";
 
 
 type CreateInvoiceFormData = {
@@ -38,6 +39,11 @@ const createInvoiceFormSchema = yup.object().shape({
 export default function CreateInvoice () {
 
   const router = useRouter()
+
+  const sigla = ''
+  const {data, error} = useStores(sigla)
+  
+  console.log(data)
   
   const createInvoice= useMutation( async (data:CreateInvoiceFormData) => {
     
@@ -85,6 +91,13 @@ export default function CreateInvoice () {
           <VStack spacing="8" alignItems="start">
             <SimpleGrid columns={3} spacing="10" w="100%"> 
               <Input label="Sigla da Loja"error={errors.loja_Sigla} {...register("loja_Sigla")} name='loja_Sigla'  />
+              <Select>
+              {data.stores.map((stores:any) => {
+                return (
+                    <option value="" key={stores.is}>{stores.loja}</option>
+                )
+              })}
+               </Select>
               <Input label="Número da Nota" error={errors.Nota_Fiscal} {...register("Nota_Fiscal")} name="Nota_Fiscal"/>
               <Input label="Valor do Serviço" mask={"currencyBr"} error={errors.Valor_Servicos} {...register("Valor_Servicos")} name="Valor_Servicos"/>
               <Input label="Valor da Nota" mask={"currencyBr"} error={errors.Valor_Nota} {...register("Valor_Nota")} name="Valor_Nota"/>
