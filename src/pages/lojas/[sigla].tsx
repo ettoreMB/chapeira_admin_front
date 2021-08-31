@@ -1,37 +1,19 @@
-import { Box, Flex, Heading, Text, Spinner} from '@chakra-ui/react' 
+import { Box, Flex, Heading, Text, Spinner, Button, HStack, Link, VStack, SimpleGrid} from '@chakra-ui/react' 
 
 import Header from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 
 import { useRouter } from 'next/router';
-import { useQuery } from "react-query";
-import { api } from '../../services/api';
 import { useStores } from '../../services/hooks/useStores';
+import React from 'react';
+import { Input } from '../../components/Form/Input';
 
-
-
-interface StoreData {
-  Loja: string;
-  Loja_Sigla: string;
-  Loja_Endereco: string;
-  Loja_Cidade: string;
-  Loja_UF: string;
-  CNPJ: number;
-  Responsavel:string;
-  Responsavel_Email: string;
-  Responsavel_Telefone:string;
-  
-}
 
 export default function Store () {
   const router = useRouter()
   const { sigla } = router.query
-
-  
     const {  data, isLoading, error } = useStores(sigla)
      
-   
-    
    return (
     
     <Box>
@@ -49,19 +31,40 @@ export default function Store () {
             <Text>Houve um erro</Text>
           ) : (
             <>
-              <Text>Loja:</Text>
-               <Text>{data.Loja}</Text>
-              <Text>{data.Loja_Sigla}</Text>
-              <Text>{data.CNPJ}</Text> 
+            <VStack spacing="8" alignItems="start">
+            <SimpleGrid columns={3} spacing="10" w="100%"> 
+              <Input label="Nome da loja" name='loja' defaultValue={data.Loja}/>
+              <Input label="Sigla Loja"   name='loja_sigla' defaultValue={data.Loja_Sigla}/>
+              <Input label="CNPJ"  name='CNPJ' defaultValue={data.CNPJ}/> 
 
-              <Text>Responsavel:</Text>
-              {/*<Text>{data.Responsavel_Email}</Text>
-              <Text>{data.Responsavel_Telefone}</Text>*/}
+            </SimpleGrid>
 
-              <Text>Endereço:</Text>
-              {/*<Text>{data.Loja_Endereco}</Text>
-              <Text>{data.Loja_Cidade}</Text>
-              <Text>{data.Loja_UF}</Text>*/}
+            <Input label="Endereço" name='endereco' defaultValue={data.Loja_Endereco}/> 
+            <SimpleGrid columns={4} spacing="10" w="100%">
+              <Input label="cidade" name='cidade' w="50"defaultValue={data.Loja_Cidade}/>
+              <Input label="UF" name='loja_uf' w="20" defaultValue={data.loja_uf}/>
+            </SimpleGrid>
+
+            <SimpleGrid minChildWidth='240px' spacing={['6','8']} w='100%'>
+              <Input label="Telefone Loja" name='telefone' defaultValue={data.Loja_Telefone}/>
+              <Input label="Responsavel" name='responsavel' defaultValue={data.Responsavel}/> 
+              <Input label="Email" name='responsavel_email' defaultValue={data.Responsavel_Email}/>
+              <Input label="Contato" name='contato'  defaultValue={data.Responsavel_Telefone}/>
+            </SimpleGrid>   
+
+            <Flex>
+              <HStack spacing="4">
+                
+                <Button type='submit'colorScheme='green' size="lg" >
+                  Salvar
+                </Button>
+                <Link href="/lojas" passHref>
+                  <Button as='a'colorScheme='red' size="lg">Cancelar</Button>
+                </Link>
+                
+              </HStack>
+            </Flex>
+          </VStack>
             </>
           )}
             

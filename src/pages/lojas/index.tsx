@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { useStores } from "../../services/hooks/useStores";
 import { queryClient } from "../../services/queryClient";
 import { api } from "../../services/api";
+import { useRouter } from "next/router";
 
 type Store = { 
   id: number;
@@ -21,7 +22,9 @@ type Store = {
 }
 
 export default function LojasIndex() {
-  const  { data, isLoading, error} = useStores();
+  const router = useRouter()
+  const sigla = ""
+  const  { data, isLoading, error} = useStores(sigla);
     
   async function handleprefecthStore(sigla: string) {
     await queryClient.prefetchQuery(['store', sigla], async () => {
@@ -31,6 +34,7 @@ export default function LojasIndex() {
     })
   }
 
+ 
   return (
     <Box>
     <Header/>
@@ -133,7 +137,9 @@ export default function LojasIndex() {
                     colorScheme='yellow'
                     leftIcon={<Icon as={RiPencilLine}
                     fontSize='20'/>}
+                    onClick={() => router.push(`lojas/${stores.loja_sigla}`)}
                   >
+                    editar
                   </Button>
                   </Td>
                 </Tr>

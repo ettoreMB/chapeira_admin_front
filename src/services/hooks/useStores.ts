@@ -21,7 +21,7 @@ type getStoresResponse = {
   stores: Store[]
 }
 
-export async function getStores(siglaId:string): Promise<getStoresResponse> {
+export async function getStores(siglaId:string): Promise<getStoresResponse | any > {
   if(siglaId) {
     const { data } = await api.get(`/stores/${siglaId}`)
     const store = data
@@ -45,7 +45,7 @@ export async function getStores(siglaId:string): Promise<getStoresResponse> {
 }
 
 
-export function useStores(sigla?:string) {
+export function useStores(sigla:string) {
   if(sigla) {
     return useQuery(['store', sigla],   ()=>getStores(sigla), {
       staleTime: 1000 * 60 *10

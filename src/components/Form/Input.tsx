@@ -43,7 +43,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         name={name}
         id={name}
         focusBorderColor='yellow.100'
-        bgColor="gray.50"
+        bgColor="gray.200"
         variant="filled"
         _hover={{
           bgColor: 'gray.100'
