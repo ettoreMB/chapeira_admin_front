@@ -44,7 +44,7 @@ export default function LojasIndex() {
           <Flex mb='8' align='center' justifyContent='space-between'>
             <Heading size='lg' fontWeight='normal'>Lojas</Heading>
 
-            <Link href='/' passHref>
+            <Link href='/lojas/create' passHref>
               <Button
                 as='a'
                 size='sm'

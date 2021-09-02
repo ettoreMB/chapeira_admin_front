@@ -9,6 +9,8 @@ import {
   Link,
   VStack,
   SimpleGrid,
+  useToast,
+  Center
 } from "@chakra-ui/react";
 
 import Header from "../../components/Header";
@@ -22,6 +24,7 @@ import { useMutation } from "react-query";
 import { api } from "../../services/api";
 import { Mutation } from "react-query/types/core/mutation";
 import { ToastExample } from "../../components/AlertBox";
+import { queryClient } from "../../services/queryClient";
 
 interface storeProps {
   sigla: string;
@@ -30,26 +33,54 @@ interface storeProps {
 export default function Store() {
   const router = useRouter();
   const { sigla } = router.query;
-  const { data, isLoading, error } = useStores(sigla as string);
+  const toast = useToast()
+  const { data, isLoading, error, } = useStores(sigla as string);
 
   const deleteStore = useMutation( async () => {
     await api.delete(`/stores/${sigla}`)
+    
   }, {
     onSuccess: () => {
-      ToastExample()
+      queryClient.invalidateQueries('stores')
+      toast({
+        title: "Loja Deletada com sucesso.",
+        description: "We've created your account for you.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      })
       router.push(`/lojas`)
-    }
-  })
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "An Error ",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      })
+      }
+  },)
 
   return (
+    
     <Box>
       <Header />
       <Flex w="100%" my="6" maxWidth={1840} mx="auto" px="6" borderRadius="8">
         <SideMenu />
         <Box flex="1" borderEndRadius={8} bg="white" p="8">
           <Heading textAlign="center">Loja</Heading>
-
-          {isLoading ? (
+          
+          {!data ? (
+            <Flex justify="center">
+              <Link href="/lojas" >
+                <Button  colorScheme="yellow" size="lg">
+                Loja nao existente Voltar !
+                </Button>
+              </Link>
+            </Flex>) 
+            
+            : isLoading ? (
             <Flex justify="center">
               <Spinner />
             </Flex>
@@ -120,11 +151,26 @@ export default function Store() {
                     <Button type="submit" colorScheme="green" size="lg">
                       Salvar
                     </Button>
-                    <Button type="submit" colorScheme="red" size="lg" onClick={() => {deleteStore.mutate(data.Loja_Sigla)}}>
+                    {deleteStore.isLoading ? (
+                      <Button
+                      colorScheme="red"
+                      size="lg"
+                      >
+                         <Spinner />
+                      </Button>
+                    ) : (
+                      <Button 
+                      type="submit"
+                      colorScheme="red"
+                      size="lg"
+                      onClick={() => {deleteStore.mutate(data.Loja_Sigla)}}
+                      >
                       Excluir
                     </Button>
-                    <Link href="/lojas" passHref>
-                      <Button as="a" colorScheme="yellow" size="lg">
+                    )}
+                    
+                    <Link href="/lojas" >
+                      <Button  colorScheme="yellow" size="lg">
                         Cancelar
                       </Button>
                     </Link>

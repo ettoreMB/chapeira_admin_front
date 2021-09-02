@@ -1,6 +1,5 @@
-import { Box, Flex, Heading, Divider, VStack,HStack, Button, SimpleGrid,InputLeftAddon, InputGroup, createStandaloneToast} from '@chakra-ui/react' 
-import { SubmitHandler, useForm, useFormState } from 'react-hook-form'
-
+import { useToast,Box, Flex, Heading, Divider, VStack,HStack, Button, SimpleGrid, Center } from '@chakra-ui/react' 
+import { SubmitHandler, useForm } from 'react-hook-form'
 import Header from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 import {Input} from '../../components/Form/Input';
@@ -11,6 +10,7 @@ import { yupResolver} from  '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useMutation } from 'react-query';
 import { api } from '../../services/api';
+import router, { useRouter } from 'next/router';
 import { queryClient } from '../../services/queryClient';
 
 type CreateStoreFormData = {
@@ -41,32 +41,46 @@ const createStoreFormSchema = yup.object().shape({
 
 
 export default function CreateStore () {
+  const router = useRouter()
+  const toast = useToast()
 
-
-  const createStore = useMutation(async (store:CreateStoreFormData) => {
+  const createStore = useMutation( async (store:CreateStoreFormData) => {  
     const {data: response} = await api.post('/stores', store)
-    console.log(response)
     return response.data
-  }, {
-    onSuccess:() => {
-      queryClient.invalidateQueries('stores')
-      const message = "success"
-      alert(message)
     },
-    onError: () => {
-      const message = 'erro'
-      alert(message)
+    {
+      onError: () => {
+        toast({
+          title: "loja Já cadastrada no sistema",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        })
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries('stores')
+        toast({
+          title: "Loja Criada com Sucesso",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+        router.push('/lojas')
+      }
     }
-  })
+    )
 
   const {register, handleSubmit, formState: {errors, isSubmitting} } = useForm({
     resolver: yupResolver(createStoreFormSchema)
   })
 
   const handleCreateStore: SubmitHandler<CreateStoreFormData > = async (values) => {
-    const store =  values;
-    console.log(values);
+    try {
+      const store =  values;
     await createStore.mutateAsync(store)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
