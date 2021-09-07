@@ -41,6 +41,8 @@ export async function getStores(siglaId:string): Promise<getStoresResponse | any
    }
  })
 
+
+
  return {stores};
 }
 

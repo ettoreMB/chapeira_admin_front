@@ -1,4 +1,4 @@
-import { Box ,Button,Flex, Heading, Icon, useBreakpointValue, Spinner, Text, Table, Thead, Checkbox, Th, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Box ,Button,Flex, Heading, Icon, useBreakpointValue, Spinner, Text, Table, Thead, Checkbox, Th, Tbody, Td, Tr, Input } from "@chakra-ui/react";
 import { RiAddLine,RiPencilLine, RiSpectrumFill } from "react-icons/ri";
 import Link from 'next/link';
 import Header from "../../components/Header";
@@ -9,6 +9,7 @@ import { useStores } from "../../services/hooks/useStores";
 import { queryClient } from "../../services/queryClient";
 import { api } from "../../services/api";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 type Store = { 
   id: number;
@@ -25,7 +26,8 @@ export default function LojasIndex() {
   const router = useRouter()
   const sigla = ""
   const  { data, isLoading, error} = useStores(sigla);
-    
+  const [searchTerm, setSearchTerm] = useState("");
+
   async function handleprefecthStore(sigla: string) {
     await queryClient.prefetchQuery(['store', sigla], async () => {
       const response = await api.get(`/stores/${sigla}`)
@@ -56,7 +58,10 @@ export default function LojasIndex() {
               </Button>
             </Link>
           </Flex>
-
+          <Input  type="text" onChange={(event) => {
+            setSearchTerm(event.target.value);
+            console.log(searchTerm)
+          }}/>
           {isLoading ? (
             <Flex justify='center'>
               <Spinner />
@@ -94,7 +99,13 @@ export default function LojasIndex() {
                 </Thead>
 
             <Tbody>
-             { data?.stores.map( (stores: Store) => {
+             { data?.stores.filter((store) => {
+               if (searchTerm === "") {
+                 return store
+               }else if (store.loja_sigla.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+                return store
+               }
+             }).map( (stores: Store) => {
                return (
                 <Tr key={stores.id}>
                   <Td px={['4','4','6']}>
