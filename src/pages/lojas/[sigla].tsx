@@ -16,15 +16,16 @@ import LoadingError from "../../components/LoadingError";
 import { SideMenu } from "../../components/SideMenu";
 import { StoreCard } from "../../components/StoreCard";
 import { api } from "../../services/api";
-import { useStores } from "../../services/hooks/useStores";
+import { useStoreDashBoard } from "../../services/hooks/useStoreDashBoard";
 import { queryClient } from "../../services/queryClient";
 
 export default function Store() {
   const router = useRouter();
   const { sigla } = router.query;
+
   const toast = useToast();
-  const { data, isLoading, error } = useStores(sigla as string);
-  console.log(data);
+  const { data, isLoading, error } = useStoreDashBoard(sigla);
+
   const deleteStore = useMutation(
     async () => {
       await api.delete(`/stores/${sigla}`);
