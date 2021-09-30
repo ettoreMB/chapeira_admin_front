@@ -1,7 +1,8 @@
-import router, { Router, useRouter } from 'next/router';
-import { useReducer } from 'react';
-import { useQuery } from 'react-query';
-import { api } from '../api';
+import router, { Router, useRouter } from "next/router";
+import { useReducer } from "react";
+import { useQuery } from "react-query";
+
+import { api } from "../api";
 
 type Store = {
   id: string;
@@ -15,21 +16,16 @@ type Store = {
   Loja_Endereco: string;
   Loja_UF: string;
   Razao_social: string;
-}
+};
 
 type getStoresResponse = {
-  stores: Store[]
-}
+  stores: Store[];
+};
 
-export async function getStores(siglaId:string): Promise<getStoresResponse | any > {
-  if(siglaId) {
-    const { data } = await api.get(`/stores/${siglaId}`)
-    const store = data
-    return store
-  }
- const { data } = await api.get('/stores')
- const stores = data.map((store:Store) => {
-   return {
+export async function getStores(): Promise<getStoresResponse | any> {
+  const { data } = await api.get("/stores");
+  const stores = data.map((store: Store) => {
+    return {
       id: store.id,
       loja: store.Loja,
       loja_sigla: store.Loja_Sigla,
@@ -38,21 +34,23 @@ export async function getStores(siglaId:string): Promise<getStoresResponse | any
       ativo: store.Ativo,
       responsavel: store.Responsavel,
       responsavel_email: store.Responsavel_Email,
-   }
- })
+    };
+  });
 
- return {stores};
+  return { stores };
+}
+export function useStores() {
+  return useQuery(["stores"], () => getStores(), {
+    staleTime: 1000 * 60 * 10,
+  });
 }
 
-
-export function useStores(sigla:string) {
-  if(sigla) {
-    return useQuery(['store', sigla],   ()=>getStores(sigla), {
-      staleTime: 1000 * 60 *10
-    })
-  }
-  return useQuery(['stores'],   ()=>getStores(sigla), {
-    staleTime: 1000 * 60 *10
-  })
+export async function getStore(loja_sigla: string): Promise<any> {
+  const { data } = await api.get(`/stores/${loja_sigla}`);
+  const storedata = data;
+  return storedata;
 }
 
+export function useStore(Loja_Sigla: string) {
+  return useQuery(["store", Loja_Sigla], () => getStore);
+}

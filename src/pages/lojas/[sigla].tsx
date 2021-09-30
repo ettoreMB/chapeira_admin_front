@@ -24,7 +24,7 @@ export default function Store() {
   const { sigla } = router.query;
 
   const toast = useToast();
-  const { data, isLoading, error } = useStoreDashBoard(sigla);
+  const { data, isLoading, error } = useStoreDashBoard(sigla as string);
 
   const deleteStore = useMutation(
     async () => {
@@ -57,7 +57,7 @@ export default function Store() {
   return (
     <Box>
       <Header />
-      <Flex w="100%" my="6" maxWidth={1840} mx="auto" px="6" borderRadius="8">
+      <Flex w="100%" maxWidth={1840}>
         <SideMenu />
         <Box flex="1" borderEndRadius={8} bg="white" p="8">
           {!data ? (
@@ -69,11 +69,7 @@ export default function Store() {
           ) : error ? (
             <LoadingError text={"Erro ao Carregar dados"} />
           ) : (
-            <>
-              <VStack align="center">
-                <StoreCard data={data} />
-              </VStack>
-            </>
+            <></>
           )}
         </Box>
       </Flex>

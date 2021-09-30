@@ -6,7 +6,6 @@ import {
   Icon,
   Table,
   Thead,
-  Checkbox,
   Th,
   Tbody,
   Td,
@@ -14,15 +13,18 @@ import {
   Input,
   Spinner,
   Text,
+  Modal,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
-import { RiAddLine, RiPencilLine } from "react-icons/ri";
+import { RiAddLine } from "react-icons/ri";
 
+import { GetStoreModal } from "../../components/GetStoreModal";
 import Header from "../../components/Header";
 import LoadingError from "../../components/LoadingError";
 import { SideMenu } from "../../components/SideMenu";
+import { TableTdText } from "../../components/Table/TableTdText";
+import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 import { api } from "../../services/api";
 import { useStores } from "../../services/hooks/useStores";
 import { queryClient } from "../../services/queryClient";
@@ -39,23 +41,26 @@ type Store = {
 };
 
 export default function LojasIndex() {
-  const router = useRouter();
+  const { onOpen } = useGetStoreModal();
 
-  const { data, isLoading, error } = useStores("");
+  const { data, isLoading, error } = useStores();
   const [searchTerm, setSearchTerm] = useState("");
+  const [storeData, setstoreData] = useState({});
 
   async function handleprefecthStore(sigla: string) {
-    await queryClient.prefetchQuery(["store", sigla], async () => {
+    await queryClient.fetchQuery(["store", sigla], async () => {
       const response = await api.get(`/stores/${sigla}`);
-
-      return response.data;
+      const storeInfo = response.data;
+      setstoreData(storeInfo);
+      return storeInfo;
     });
   }
 
   return (
-    <Box>
+    <>
       <Header />
-      <Flex w="100%" my="6" maxWidth={1840} mx="auto" px="6">
+
+      <Flex w="100%" maxWidth={1840}>
         <SideMenu />
         <Box flex="1" borderEndRadius={8} bg="white" p="8">
           <Flex mb="8" align="center" justifyContent="space-between">
@@ -123,69 +128,54 @@ export default function LojasIndex() {
                     })
                     .map((stores: Store) => {
                       return (
-                        <Tr key={stores.id}>
-                          <Td>
-                            <Box>
-                              <Text fontWeight="bold">{stores.loja}</Text>
-                            </Box>
-                          </Td>
-                          <Td>
-                            <Box>
-                              <Text
-                                fontWeight="bold"
-                                onMouseEnter={() =>
-                                  handleprefecthStore(stores.loja_sigla)
+                        <>
+                          <Tr key={stores.id}>
+                            <TableTdText data={stores.loja} />
+                            <Td>
+                              <Box>
+                                <Text fontWeight="bold">
+                                  {stores.loja_sigla}
+                                </Text>
+                              </Box>
+                            </Td>
+                            <TableTdText data={stores.uf} />
+                            <TableTdText data={stores.responsavel} />
+                            <TableTdText data={stores.responsavel_email} />
+                            <Td>
+                              <Button
+                                onClick={async () => {
+                                  await handleprefecthStore(stores.loja_sigla);
+                                  onOpen();
+                                }}
+                                flex={1}
+                                rounded={"full"}
+                                fontSize="sm"
+                                bg={"blue.400"}
+                                color={"white"}
+                                boxShadow={
+                                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
                                 }
+                                _hover={{
+                                  bg: "blue.500",
+                                }}
+                                _focus={{
+                                  bg: "blue.500",
+                                }}
                               >
-                                {stores.loja_sigla}
-                              </Text>
-                            </Box>
-                          </Td>
-                          <Td>
-                            <Box>
-                              <Text fontWeight="bold">{stores.uf}</Text>
-                            </Box>
-                          </Td>
-                          <Td>
-                            <Box>
-                              <Text fontWeight="bold">
-                                {stores.responsavel}
-                              </Text>
-                            </Box>
-                          </Td>
-                          <Td>
-                            <Box>
-                              <Text fontWeight="bold">
-                                {stores.responsavel_email}
-                              </Text>
-                            </Box>
-                          </Td>
-
-                          <Td>
-                            <Button
-                              as="a"
-                              size="sm"
-                              fontSize="sm"
-                              colorScheme="yellow"
-                              leftIcon={
-                                <Icon as={RiPencilLine} fontSize="20" />
-                              }
-                              onClick={() =>
-                                router.push(`lojas/${stores.loja_sigla}`)
-                              }
-                            >
-                              editar
-                            </Button>
-                          </Td>
-                        </Tr>
+                                Ver
+                              </Button>
+                            </Td>
+                          </Tr>
+                        </>
                       );
                     })}
                 </Tbody>
               </Table>
+              <GetStoreModal data={storeData} />
             </>
           )}
         </Box>
       </Flex>
-    </Box>
+    </>
   );
 }

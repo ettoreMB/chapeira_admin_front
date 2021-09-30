@@ -1,65 +1,92 @@
-import { Box, Text, Grid, GridItem } from "@chakra-ui/react";
-import { MdSettings } from "react-icons/md";
+import { useColorMode } from "@chakra-ui/core";
+import {
+  Heading,
+  Avatar,
+  Box,
+  Center,
+  Text,
+  Stack,
+  Button,
+  Link,
+  Badge,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
-import { InfoSmallCard } from "./InfoSmallCard";
-type IDataProps = {
-  data: {
-    Loja: string;
-    Loja_Sigla: string;
-    Ativo: boolean;
-    CNPJ: number;
-    Responsavel: string;
-    Responsavel_Email: string;
-    Loja_Cidade: string;
-    Loja_Endereco: string;
-    Loja_UF: string;
-    Razao_social: string;
-  };
-};
+interface StoreCardProps {
+  data: any;
+}
 
-export function StoreCard({ data }: IDataProps) {
+export function StoreCard({ data }: StoreCardProps) {
   return (
-    <Grid
-      height="160px"
-      templateColumns={{ lg: "repeat(6, 1fr)", sm: "repeat(1, 1fr)" }}
-      gap={4}
-    >
-      <GridItem
-        bg="yellow.300"
-        minW="300"
-        colSpan={{ lg: 2, sm: 1 }}
-        borderRadius="10"
-        w="400px"
+    <Center py="6">
+      <Box
+        p="6"
+        maxWidth={380}
+        w="full"
+        bg={useColorModeValue("white", "gray.900")}
+        boxShadow={"2xl"}
+        textAlign="center"
+        rounded="lg"
       >
-        <Box width="100%">
-          <Text fontSize="20" fontWeight="bold" color="white" mb="2">
-            Titulo
-          </Text>
+        <Heading fontSize="2xl" fontFamily={"body"}>
+          Loja
+        </Heading>
+        <Text fontWeight={600} color={"gray.500"} mb={4}>
+          Sigla
+        </Text>
+        <Box
+          textAlign={"center"}
+          color={useColorModeValue("gray.700", "gray.400")}
+        >
+          <Text>Inicio 01/01/2020</Text>
+          <Text>Estado</Text>
+          <Text>Responsavel</Text>
+          <Text>Email</Text>
+          <Text>Endereço Loja</Text>
+          <Text>https://chapeira.com.br/sigla-loja</Text>
         </Box>
-      </GridItem>
 
-      <InfoSmallCard
-        title={"Faturas"}
-        value={data.Loja}
-        bgcolor={"blue.300"}
-        icon={MdSettings}
-      />
-
-      <InfoSmallCard
-        title={"Faturas"}
-        value={data.CNPJ}
-        bgcolor={"green.300"}
-        icon={MdSettings}
-      />
-
-      <InfoSmallCard title={"Faturas"} value={10} icon={MdSettings} />
-
-      <InfoSmallCard
-        title={"Faturas"}
-        value={10}
-        bgcolor={"red.300"}
-        icon={MdSettings}
-      />
-    </Grid>
+        <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
+          <Button
+            flex={1}
+            fontSize={"sm"}
+            rounded={"full"}
+            bg={"blue.400"}
+            color={"white"}
+            boxShadow={
+              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+            }
+            _hover={{
+              bg: "blue.500",
+            }}
+            _focus={{
+              bg: "blue.500",
+            }}
+          >
+            Editar
+          </Button>
+        </Stack>
+        <Stack mt={4} direction={"row"} spacing={4}>
+          <Button
+            flex={1}
+            fontSize={"sm"}
+            rounded={"full"}
+            bg={"yellow.400"}
+            color={"white"}
+            boxShadow={
+              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+            }
+            _hover={{
+              bg: "yellow.500",
+            }}
+            _focus={{
+              bg: "yellow.500",
+            }}
+          >
+            Notas 50
+          </Button>
+        </Stack>
+      </Box>
+    </Center>
   );
 }

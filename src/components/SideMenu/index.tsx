@@ -36,7 +36,7 @@ export function SideMenu() {
     );
   }
   return (
-    <Box as="aside" w="64" mr="8">
+    <Box as="aside" w="64" mr="8" bg="white" h="100vh">
       <SideMenuNav />
     </Box>
   );

@@ -4,7 +4,9 @@ import {
   Text,
   Icon,
   useBreakpointValue,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
+import Link, { LinkProps } from "next/link";
 import { RiMenuLine } from "react-icons/ri";
 
 import { useSideMenuDrawer } from "../../contexts/SideMenuDrawerContext";
@@ -20,7 +22,7 @@ export default function Header() {
   return (
     <Flex
       as="header"
-      w="100"
+      w="100%"
       h="20"
       mx="auto"
       px="6"
@@ -38,8 +40,11 @@ export default function Header() {
           mr="2"
         />
       )}
-
-      <Text>Chapeira ADM</Text>
+      <Link href="/">
+        <ChakraLink>
+          <Text>Chapeira ADM</Text>
+        </ChakraLink>
+      </Link>
     </Flex>
   );
 }

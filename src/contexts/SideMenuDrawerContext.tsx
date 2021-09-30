@@ -6,24 +6,25 @@ interface SideMenuDrawerProviderProps {
   children: ReactNode;
 }
 
-type SideMenuDrawerContextData = UseDisclosureReturn
+type SideMenuDrawerContextData = UseDisclosureReturn;
 
 const SieMenuDrawerContext = createContext({} as SideMenuDrawerContextData);
 
-
-export function SideMenuDrawerProvider({children}: SideMenuDrawerProviderProps) {
+export function SideMenuDrawerProvider({
+  children,
+}: SideMenuDrawerProviderProps) {
   const disclosure = useDisclosure();
-  const router = useRouter(); 
+  const router = useRouter();
 
   useEffect(() => {
-    disclosure.onClose()
-  }, [router.asPath])
+    disclosure.onClose();
+  }, [router.asPath]);
 
-  return(
+  return (
     <SieMenuDrawerContext.Provider value={disclosure}>
       {children}
-    </SieMenuDrawerContext.Provider >
-  )
+    </SieMenuDrawerContext.Provider>
+  );
 }
 
-export const useSideMenuDrawer = () => useContext(SieMenuDrawerContext)
+export const useSideMenuDrawer = () => useContext(SieMenuDrawerContext);
