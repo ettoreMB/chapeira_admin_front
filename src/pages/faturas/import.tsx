@@ -34,7 +34,7 @@ export default function ImportInvoice() {
   const handleSendFile = async(data: any) => {
     const file = new FormData()
     file.append("file", data.file[0] )
-    console.log(data.file[0])
+
     await api.post('/invoices/import', file)
     
   }

@@ -3,7 +3,7 @@ import { api } from '../api';
 
 type Invoice = {
   id: string;
-  loja_Sigla: string;
+  Loja_Sigla: string;
   Nota_Fiscal: string;
   Data_Faturamento: Date;
   Data_Vencimento: Date;
@@ -18,7 +18,7 @@ export async function getInvoices(): Promise<Invoice[]> {
   const invoices = data.map((invoice: Invoice) => {
     return {
       id: invoice.id,
-      loja_Sigla: invoice.loja_Sigla,
+      Loja_Sigla: invoice.Loja_Sigla,
       Nota_Fiscal: invoice.Nota_Fiscal,
       Data_Faturamento: invoice.Data_Faturamento,
       Data_Vencimento: invoice.Data_Vencimento,
@@ -37,11 +37,11 @@ export function useInvoices() {
 }
 
 export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
-  const { data } = await api.get(`/invoices/${sigla}`);
+  const { data } = await api.get(`/invoices/store?sigla=${sigla}`);
   const invoices = data.map((invoice: Invoice) => {
     return {
       id: invoice.id,
-      loja_Sigla: invoice.loja_Sigla,
+      Loja_Sigla: invoice.Loja_Sigla,
       Nota_Fiscal: invoice.Nota_Fiscal,
       Data_Faturamento: invoice.Data_Faturamento,
       Data_Vencimento: invoice.Data_Vencimento,
@@ -50,8 +50,10 @@ export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
     }
   })
   return invoices;
-};
+}
 
 export function useInvoicesByStore(sigla: string) {
-  return useQuery(["invoices", sigla], () => getInvoicesByStore);
+  return useQuery(["invoices", sigla], () => getInvoicesByStore(sigla), {
+    staleTime: 1000 * 60 * 10
+  });
 };

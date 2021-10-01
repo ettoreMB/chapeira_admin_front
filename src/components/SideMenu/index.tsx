@@ -7,6 +7,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Divider
 } from "@chakra-ui/react";
 
 import { useSideMenuDrawer } from "../../contexts/SideMenuDrawerContext";
@@ -36,8 +37,11 @@ export function SideMenu() {
     );
   }
   return (
-    <Box as="aside" w="64" mr="8" bg="white" h="100vh">
-      <SideMenuNav />
-    </Box>
+    <>
+      <Box as="aside" w="64" bg="white" h="100vh" borderRight='1px' borderRightColor='gray.100'>
+        <SideMenuNav />
+      </Box>
+      
+    </>
   );
 }

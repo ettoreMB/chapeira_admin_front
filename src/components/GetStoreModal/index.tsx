@@ -11,14 +11,29 @@ import {
   Stack,
 } from "@chakra-ui/react";
 
-import { StoreCard } from "../../components/StoreCard";
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
-interface StoreCardProps {
-  data: any;
-}
-export function GetStoreModal({ data }: StoreCardProps) {
-  const { isOpen, onClose } = useGetStoreModal();
+import { useRouter } from 'next/router'
 
+type StoreProps = {
+  data: {
+    id: number;
+    Loja: string;
+    Loja_Sigla: string;
+    CNPJ: number;
+    Loja_Cidade: string;
+    Loja_UF: string;
+    ativo: boolean;
+    Responsavel: string;
+    Responsavel_Email: string;
+    Loja_Endereco: string;
+    URL: string;
+    faturamento_inicio: Date;
+  }
+}
+
+export function GetStoreModal(  { data }: StoreProps  ) {
+  const { isOpen, onClose } = useGetStoreModal();
+  const router = useRouter()
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
@@ -33,25 +48,32 @@ export function GetStoreModal({ data }: StoreCardProps) {
             textAlign="center"
             rounded="lg"
           >
-            <Heading fontSize="2xl" fontFamily={"body"}>
-              {data.id}
+            <Heading fontSize="4xl" fontFamily={"body"} mb={1}>
+              {data.Loja}
             </Heading>
+            <Text fontWeight={600} color={"gray.500"} mb={2}>
+              {data.Loja_Sigla}
+            </Text>
             <Text fontWeight={600} color={"gray.500"} mb={4}>
-              Sigla
+              {data.CNPJ}
             </Text>
             <Box
               textAlign={"center"}
               color={useColorModeValue("gray.700", "gray.400")}
             >
-              <Text>Inicio 01/01/2020</Text>
-              <Text>Estado</Text>
-              <Text>Responsavel</Text>
-              <Text>Email</Text>
-              <Text>Endereço Loja</Text>
-              <Text>https://chapeira.com.br/sigla-loja</Text>
+              <Stack spacing="4">
+                <Text>{data.faturamento_inicio}</Text>
+                <Text>{data.Loja_UF}</Text>
+                <Text>{data.Loja_Cidade}</Text>
+                <Text>{data.Responsavel}</Text>
+                <Text>{data.Responsavel_Email}</Text>
+                <Text>{data.Loja_Endereco}</Text>
+                <Text>{data.URL}</Text>
+              </Stack>
+              
             </Box>
 
-            <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
+            <Stack align={"center"} justify={"center"} direction={"row"} mt={6} >
               <Button
                 flex={1}
                 fontSize={"sm"}
@@ -78,6 +100,7 @@ export function GetStoreModal({ data }: StoreCardProps) {
                 rounded={"full"}
                 bg={"yellow.400"}
                 color={"white"}
+                onClick={() => router.push(`/faturas/${data.Loja_Sigla}`)}
                 boxShadow={
                   "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
                 }
@@ -88,7 +111,7 @@ export function GetStoreModal({ data }: StoreCardProps) {
                   bg: "yellow.500",
                 }}
               >
-                Notas 50
+                Faturamento
               </Button>
             </Stack>
           </Box>

@@ -4,7 +4,7 @@ interface ILoadingError {
   text: string;
 }
 
-export default function LoadingError({ text }: ILoadingError) {
+export function LoadingError({ text }: ILoadingError) {
   return (
     <Flex justify="center">
       <Link href="/">

@@ -6,12 +6,12 @@ import {
   useBreakpointValue,
   Link as ChakraLink,
 } from "@chakra-ui/react";
-import Link, { LinkProps } from "next/link";
+import Link  from "next/link";
 import { RiMenuLine } from "react-icons/ri";
 
 import { useSideMenuDrawer } from "../../contexts/SideMenuDrawerContext";
 
-export default function Header() {
+export function Header() {
   const { onOpen } = useSideMenuDrawer();
 
   const isWideVersion = useBreakpointValue({

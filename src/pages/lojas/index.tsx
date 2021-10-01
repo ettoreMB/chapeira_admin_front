@@ -13,17 +13,16 @@ import {
   Input,
   Spinner,
   Text,
-  Modal,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useState } from "react";
 import { RiAddLine } from "react-icons/ri";
 
 import { GetStoreModal } from "../../components/GetStoreModal";
-import Header from "../../components/Header";
-import LoadingError from "../../components/LoadingError";
-import { SideMenu } from "../../components/SideMenu";
-import { TableTdText } from "../../components/Table/TableTdText";
+import { Header } from "@components/Header";
+import {LoadingError} from "@components/LoadingError";
+import { SideMenu } from "@components/SideMenu";
+import { TableTdText } from "@components/Table/TableTdText";
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 import { api } from "../../services/api";
 import { useStores } from "../../services/hooks/useStores";
@@ -45,14 +44,12 @@ export default function LojasIndex() {
 
   const { data, isLoading, error } = useStores();
   const [searchTerm, setSearchTerm] = useState("");
-  const [storeData, setstoreData] = useState({});
 
   async function handleprefecthStore(sigla: string) {
     await queryClient.fetchQuery(["store", sigla], async () => {
       const response = await api.get(`/stores/${sigla}`);
-      const storeInfo = response.data;
-      setstoreData(storeInfo);
-      return storeInfo;
+    
+      return response.data;
     });
   }
 
@@ -60,7 +57,7 @@ export default function LojasIndex() {
     <>
       <Header />
 
-      <Flex w="100%" maxWidth={1840}>
+      <Flex w="100%">
         <SideMenu />
         <Box flex="1" borderEndRadius={8} bg="white" p="8">
           <Flex mb="8" align="center" justifyContent="space-between">
@@ -171,7 +168,7 @@ export default function LojasIndex() {
                     })}
                 </Tbody>
               </Table>
-              <GetStoreModal data={storeData} />
+            <GetStoreModal data={storeData} />
             </>
           )}
         </Box>

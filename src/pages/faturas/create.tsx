@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Divider, VStack,HStack, Button, SimpleGrid, Select, FormControl, FormLabel} from '@chakra-ui/react' 
-import Header from '../../components/Header'
+import {Header} from '../../components/Header'
 import { SideMenu } from '../../components/SideMenu'
 import {Input} from '../../components/Form/Input';
 
@@ -43,8 +43,6 @@ export default function CreateInvoice () {
   const sigla = ''
   
   const {data, error} = useStores(sigla)
-  
-  console.log(data)
   
   const createInvoice= useMutation( async (data:CreateInvoiceFormData) => {
     

@@ -1,16 +1,19 @@
-import { Box ,Button,Flex, Heading, Icon, useBreakpointValue, Spinner, Text, Table, Thead, Checkbox, Th, Tbody, Td, Tr } from "@chakra-ui/react";
-import { RiAddLine,RiPencilLine, RiSpectrumFill } from "react-icons/ri";
+import { Box ,Button,Flex, Heading, Icon,  Text, Table, Thead, Checkbox, Th, Tbody, Td, Tr, Input } from "@chakra-ui/react";
+import { RiAddLine,RiPencilLine } from "react-icons/ri";
 import Link from 'next/link';
-import Header from "../../components/Header";
-import { SideMenu } from '../../components/SideMenu';
 
+
+import { Header } from "@components/Header";
+import { TableTdText} from "@components/Table/TableTdText"
+import { SideMenu} from '@components/SideMenu'
 import { useInvoices } from "../../services/hooks/useInvoices";
-
+import { useState } from "react";
+import { useRouter } from "next/router";
 
  export default function FaturasIndex() {
-
+ const router = useRouter();
  const { data, error } = useInvoices()
-
+ const [storeInitial, setStoreInital] = useState("");
  function dateFormat(date: Date) {
    const formatedDate = new Intl.DateTimeFormat('pt-BR').format(new Date(date))
    return formatedDate
@@ -33,8 +36,12 @@ import { useInvoices } from "../../services/hooks/useInvoices";
       <Box flex='1' borderEndRadius={8} bg='white' p='8'>
           <Flex mb='8' align='center' justifyContent='space-between'>
             <Heading size='lg' fontWeight='normal'>Faturas</Heading>
-
-            <Link href='/' passHref>
+            <Input type="text"
+              onChange={(event) => {
+                setStoreInital(event.target.value)
+            }}/>
+            <Button onClick={() => router.push(`/faturas/${storeInitial}`)}>Filtrar</Button>
+            <Link href='/faturas/edit/loja3' passHref>
               <Button
                 as='a'
                 size='sm'
@@ -78,11 +85,9 @@ import { useInvoices } from "../../services/hooks/useInvoices";
                   <Th>
                     pendente
                   </Th>
-                  
                   <Th width='8'></Th>
                 </Tr>
                 </Thead>
-
             <Tbody>
              
                {data?.map(invoice => { 
@@ -91,16 +96,8 @@ import { useInvoices } from "../../services/hooks/useInvoices";
                   <Td px={['4','4','6']}>
                     <Checkbox  colorScheme='green'/>
                   </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight='bold'>{invoice.Nota_Fiscal}</Text>
-                    </Box>
-                  </Td>
-                  <Td>
-                    <Box>
-                      <Text fontWeight='bold'>{invoice.loja_Sigla}</Text>
-                    </Box>
-                  </Td>
+                  <TableTdText data={invoice.Nota_Fiscal}/>
+                  <TableTdText data={invoice.Loja_Sigla}/>
                   <Td>
                     <Box>
                       <Text fontWeight='bold'>{currencyFormat(invoice.Valor_Nota)}</Text>
@@ -133,6 +130,7 @@ import { useInvoices } from "../../services/hooks/useInvoices";
                   </Td>
                   
                   <Td>
+                
                   <Button
                     as='a'
                     size='sm'
@@ -145,17 +143,9 @@ import { useInvoices } from "../../services/hooks/useInvoices";
                   </Td>
                 </Tr>
                  ) })}
-                  
-               
-             
             </Tbody>
-               
-               
-
           </Table>
-            </>    
-          
-
+        </>    
         </Box>
       </Flex>
       </Box>
