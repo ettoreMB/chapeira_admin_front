@@ -47,10 +47,10 @@ export function useStores() {
 
 export async function getStore(loja_sigla: string): Promise<any> {
   const { data } = await api.get(`/stores/${loja_sigla}`);
-  const storedata = data;
-  return storedata;
+  
+  return data;
 }
 
 export function useStore(Loja_Sigla: string) {
-  return useQuery(["store", Loja_Sigla], () => getStore);
+  return useQuery(["store", Loja_Sigla], async () => await getStore(Loja_Sigla));
 }
