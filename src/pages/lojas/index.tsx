@@ -56,14 +56,10 @@ export default function LojasIndex() {
       setStoreData(storeInfo);
     })
   }
-  
-  async function handleprefecthStore(sigla: string) {
-    await queryClient.fetchQuery(["store", sigla], async () => {
-      const response = await api.get(`/stores/${sigla}`);
-    
-      return response.data;
-    });
-  }
+ 
+  useEffect(() => {
+    setStoreData(storeData)
+  },[storeData])
 
   return (
     <>
