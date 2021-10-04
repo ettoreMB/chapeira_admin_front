@@ -11,6 +11,8 @@ type Invoice = {
   Pendente: boolean;
   Valor_Nota: number;
   Valor_Servicos: number;
+  pago: boolean;
+  pendente: boolean;
 }
 
 export async function getInvoices(): Promise<Invoice[]> {
@@ -46,7 +48,9 @@ export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
       Data_Faturamento: invoice.Data_Faturamento,
       Data_Vencimento: invoice.Data_Vencimento,
       Valor_Nota: invoice.Valor_Nota,
-      Valor_Servicos: invoice.Valor_Servicos
+      Valor_Servicos: invoice.Valor_Servicos,
+      pago: invoice.Pago,
+      pendente: invoice.Pendente
     }
   })
   return invoices;

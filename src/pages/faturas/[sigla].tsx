@@ -1,4 +1,5 @@
-import { Box ,Button,Flex, Heading, Icon,  Spinner, Table, Thead, Checkbox, Th, Tbody, Td, Tr, Input } from "@chakra-ui/react";
+import { Box ,Button,Flex, Heading, Icon,  Spinner, Table, Thead, Checkbox, Th, Tbody, Td, Tr, Input, Select
+ } from "@chakra-ui/react";
 import { RiAddLine,RiPencilLine} from "react-icons/ri";
 import Link from 'next/link';
 import { useRouter } from "next/router";
@@ -9,14 +10,14 @@ import { SideMenu } from '@components/SideMenu';
 import { TableTdText } from '@components/Table/TableTdText';
 import { LoadingError } from '@components/LoadingError'
 import { useState } from "react";
+import { useStores } from "services/hooks/useStores";
 
  export default function FaturasBySigla() {
   const router = useRouter();
   const { sigla} = router.query;
+  const stores = useStores();
   const [storeInitial, setStoreInital] = useState("");
  const { data, isLoading, error } = useInvoicesByStore(sigla as string)
-
-
 
   return (
     <Box>
@@ -33,7 +34,22 @@ import { useState } from "react";
             
             />
             <Button onClick={() => router.push(`/faturas/${storeInitial}`)}>Filtrar</Button>
-            
+            <Select
+                focusBorderColor='yellow.100'
+                bgColor="gray.200"
+                variant="filled"
+                _hover={{
+                  bgColor: 'gray.100'
+                }}
+                size="lg"
+              >
+              {stores.data.stores.map((stores:any) => {
+                return (
+                    <option value="" key={stores.is}>{stores.loja}</option>
+                )
+              })}
+                
+              </Select>
             <Link href='/' passHref>
               <Button
                 as='a'
@@ -101,16 +117,19 @@ import { useState } from "react";
                     <TableTdText data={invoice.Valor_Servicos}/>
                     <TableTdText data={invoice.Data_Faturamento}/>
                     <TableTdText data={invoice.Data_Vencimento}/>
+                    
                     <Td>
                       <Box>
-                        <Checkbox  colorScheme='green'/>
+                       {invoice.pago === true ? (<Checkbox  colorScheme='green' isChecked={true} />) : (<Checkbox  colorScheme='green' isChecked={false} />)}
                       </Box>
                     </Td>
+
                     <Td>
                       <Box>
-                        <Checkbox  colorScheme='red'/>
+                       {invoice.pendente === true ? (<Checkbox  colorScheme='red' isChecked={true} />) : (<Checkbox  colorScheme='red' isChecked={false} />)}
                       </Box>
                     </Td>
+                    
                     
                     <Td>
                     <Button
