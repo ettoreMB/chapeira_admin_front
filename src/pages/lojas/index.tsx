@@ -14,20 +14,19 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
+import { Header } from "@components/Header";
+import { LoadingError } from "@components/LoadingError";
+import { SideMenu } from "@components/SideMenu";
+import { TableTdText } from "@components/Table/TableTdText";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { RiAddLine } from "react-icons/ri";
 
 import { GetStoreModal } from "../../components/GetStoreModal";
-import { Header } from "@components/Header";
-import {LoadingError} from "@components/LoadingError";
-import { SideMenu } from "@components/SideMenu";
-import { TableTdText } from "@components/Table/TableTdText";
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 import { api } from "../../services/api";
 import { getStore, useStore, useStores } from "../../services/hooks/useStores";
 import { queryClient } from "../../services/queryClient";
-
 
 type Store = {
   id: number;
@@ -42,24 +41,23 @@ type Store = {
 
 export default function LojasIndex() {
   const { onOpen } = useGetStoreModal();
-  
+
   const { data, isLoading, error } = useStores();
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [storeData, setStoreData] = useState({});
-
 
   async function handleLoadStoreInfo(sigla: string) {
     await queryClient.fetchQuery(["store", sigla], async () => {
       const response = await api.get(`/stores/${sigla}`);
       const storeInfo = response.data;
       setStoreData(storeInfo);
-    })
+    });
   }
- 
+
   useEffect(() => {
-    setStoreData(storeData)
-  },[storeData])
+    setStoreData(storeData);
+  }, [storeData]);
 
   return (
     <>
@@ -143,14 +141,19 @@ export default function LojasIndex() {
                                 </Text>
                               </Box>
                             </Td>
-                            <TableTdText data={stores.uf} onMouseEnter={async () => await handleprefecthStore(stores.loja_sigla)}/>
+                            <TableTdText
+                              data={stores.uf}
+                              onMouseEnter={async () =>
+                                await handleprefecthStore(stores.loja_sigla)
+                              }
+                            />
                             <TableTdText data={stores.responsavel} />
                             <TableTdText data={stores.responsavel_email} />
                             <Td>
                               <Button
                                 onClick={async () => {
                                   await handleLoadStoreInfo(stores.loja_sigla);
-                                  onOpen()
+                                  onOpen();
                                 }}
                                 flex={1}
                                 rounded={"full"}
@@ -176,7 +179,7 @@ export default function LojasIndex() {
                     })}
                 </Tbody>
               </Table>
-            <GetStoreModal data={storeData} />
+              <GetStoreModal data={storeData} />
             </>
           )}
         </Box>
