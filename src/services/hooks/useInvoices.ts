@@ -1,5 +1,6 @@
-import { useQuery } from 'react-query';
-import { api } from '../api';
+import { useQuery } from "react-query";
+
+import { api } from "../api";
 
 type Invoice = {
   id: string;
@@ -13,10 +14,10 @@ type Invoice = {
   Valor_Servicos: number;
   pago: boolean;
   pendente: boolean;
-}
+};
 
 export async function getInvoices(): Promise<Invoice[]> {
-  const { data } = await api.get('/invoices')
+  const { data } = await api.get("/invoices");
   const invoices = data.map((invoice: Invoice) => {
     return {
       id: invoice.id,
@@ -25,17 +26,17 @@ export async function getInvoices(): Promise<Invoice[]> {
       Data_Faturamento: invoice.Data_Faturamento,
       Data_Vencimento: invoice.Data_Vencimento,
       Valor_Nota: invoice.Valor_Nota,
-      Valor_Servicos: invoice.Valor_Servicos
-    }
-  })
+      Valor_Servicos: invoice.Valor_Servicos,
+    };
+  });
 
   return invoices;
 }
 
 export function useInvoices() {
-  return useQuery(['invoices'], () => getInvoices(), {
-    staleTime: 1000 * 60 * 10
-  })
+  return useQuery(["invoices"], () => getInvoices(), {
+    staleTime: 1000 * 60 * 10,
+  });
 }
 
 export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
@@ -50,14 +51,14 @@ export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
       Valor_Nota: invoice.Valor_Nota,
       Valor_Servicos: invoice.Valor_Servicos,
       pago: invoice.Pago,
-      pendente: invoice.Pendente
-    }
-  })
+      pendente: invoice.Pendente,
+    };
+  });
   return invoices;
 }
 
 export function useInvoicesByStore(sigla: string) {
   return useQuery(["invoices", sigla], () => getInvoicesByStore(sigla), {
-    staleTime: 1000 * 60 * 10
+    staleTime: 1000 * 60 * 10,
   });
-};
+}
