@@ -27,6 +27,8 @@ export async function getInvoices(): Promise<Invoice[]> {
       Data_Vencimento: invoice.Data_Vencimento,
       Valor_Nota: invoice.Valor_Nota,
       Valor_Servicos: invoice.Valor_Servicos,
+      pago: invoice.Pago,
+      pendente: invoice.Pendente,
     };
   });
 
@@ -35,30 +37,31 @@ export async function getInvoices(): Promise<Invoice[]> {
 
 export function useInvoices() {
   return useQuery(["invoices"], () => getInvoices(), {
+    onSuccess: (data = {}),
     staleTime: 1000 * 60 * 10,
   });
 }
 
-export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
-  const { data } = await api.get(`/invoices/store?sigla=${sigla}`);
-  const invoices = data.map((invoice: Invoice) => {
-    return {
-      id: invoice.id,
-      Loja_Sigla: invoice.Loja_Sigla,
-      Nota_Fiscal: invoice.Nota_Fiscal,
-      Data_Faturamento: invoice.Data_Faturamento,
-      Data_Vencimento: invoice.Data_Vencimento,
-      Valor_Nota: invoice.Valor_Nota,
-      Valor_Servicos: invoice.Valor_Servicos,
-      pago: invoice.Pago,
-      pendente: invoice.Pendente,
-    };
-  });
-  return invoices;
-}
+// export async function getInvoicesByStore(sigla: string): Promise<Invoice[]> {
+//   const { data } = await api.get(`/invoices/store?sigla=${sigla}`);
+//   const invoices = data.map((invoice: Invoice) => {
+//     return {
+//       id: invoice.id,
+//       Loja_Sigla: invoice.Loja_Sigla,
+//       Nota_Fiscal: invoice.Nota_Fiscal,
+//       Data_Faturamento: invoice.Data_Faturamento,
+//       Data_Vencimento: invoice.Data_Vencimento,
+//       Valor_Nota: invoice.Valor_Nota,
+//       Valor_Servicos: invoice.Valor_Servicos,
+//       pago: invoice.Pago,
+//       pendente: invoice.Pendente,
+//     };
+//   });
+//   return invoices;
+// }
 
-export function useInvoicesByStore(sigla: string) {
-  return useQuery(["invoices", sigla], () => getInvoicesByStore(sigla), {
-    staleTime: 1000 * 60 * 10,
-  });
-}
+// export function useInvoicesByStore(sigla: string) {
+//   return useQuery(["invoices", sigla], () => getInvoicesByStore(sigla), {
+//     staleTime: 1000 * 60 * 10,
+//   });
+// }

@@ -8,19 +8,18 @@ import {
   HStack,
   Button,
   SimpleGrid,
-  Center,
 } from "@chakra-ui/react";
+import { Input } from "@components/Form/Input";
+import { Header } from "@components/Header";
+import { SideMenu } from "@components/SideMenu";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { api } from "@services/api";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as yup from "yup";
 
-import { Input } from "../../components/Form/Input";
-import Header from "../../components/Header";
-import { SideMenu } from "../../components/SideMenu";
-import { api } from "../../services/api";
 import { queryClient } from "../../services/queryClient";
 
 type CreateStoreFormData = {

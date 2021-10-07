@@ -14,35 +14,25 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
+import { GetStoreModal } from "@components/GetStoreModal";
 import { Header } from "@components/Header";
 import { LoadingError } from "@components/LoadingError";
 import { SideMenu } from "@components/SideMenu";
 import { TableTdText } from "@components/Table/TableTdText";
+import { api } from "@services/api";
+import { IStoreDto, Store } from "@services/hooks/Dtos/StoreDto";
+import { useGetStores } from "@services/hooks/stores/stores.service";
+import { queryClient } from "@services/queryClient";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { RiAddLine } from "react-icons/ri";
 
-import { GetStoreModal } from "../../components/GetStoreModal";
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
-import { api } from "../../services/api";
-import { getStore, useStore, useStores } from "../../services/hooks/useStores";
-import { queryClient } from "../../services/queryClient";
-
-type Store = {
-  id: number;
-  loja: string;
-  loja_sigla: string;
-  CNPJ: number;
-  uf: string;
-  ativo: boolean;
-  responsavel: string;
-  responsavel_email: string;
-};
 
 export default function LojasIndex() {
   const { onOpen } = useGetStoreModal();
 
-  const { data, isLoading, error } = useStores();
+  const { data, isLoading, error } = useGetStores();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [storeData, setStoreData] = useState({});
@@ -62,7 +52,6 @@ export default function LojasIndex() {
   return (
     <>
       <Header />
-
       <Flex w="100%">
         <SideMenu />
         <Box flex="1" borderEndRadius={8} bg="white" p="8">
@@ -121,13 +110,6 @@ export default function LojasIndex() {
                           .includes(searchTerm.toLocaleLowerCase())
                       )
                         return store;
-
-                      if (
-                        store.responsavel_email
-                          .toLowerCase()
-                          .includes(searchTerm.toLocaleLowerCase())
-                      )
-                        return store;
                     })
                     .map((stores: Store) => {
                       return (
@@ -141,12 +123,7 @@ export default function LojasIndex() {
                                 </Text>
                               </Box>
                             </Td>
-                            <TableTdText
-                              data={stores.uf}
-                              onMouseEnter={async () =>
-                                await handleprefecthStore(stores.loja_sigla)
-                              }
-                            />
+                            <TableTdText data={stores.uf} />
                             <TableTdText data={stores.responsavel} />
                             <TableTdText data={stores.responsavel_email} />
                             <Td>

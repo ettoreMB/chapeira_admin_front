@@ -9,10 +9,11 @@ import {
   useColorModeValue,
   Button,
   Stack,
+  Link,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
-import { useRouter } from 'next/router'
 
 type StoreProps = {
   data: {
@@ -28,12 +29,12 @@ type StoreProps = {
     Loja_Endereco: string;
     URL: string;
     faturamento_inicio: Date;
-  }
-}
+  };
+};
 
-export function GetStoreModal(  { data }: StoreProps  ) {
+export function GetStoreModal({ data }: StoreProps) {
   const { isOpen, onClose } = useGetStoreModal();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
@@ -51,9 +52,13 @@ export function GetStoreModal(  { data }: StoreProps  ) {
             <Heading fontSize="4xl" fontFamily={"body"} mb={1}>
               {data.Loja}
             </Heading>
+
+            <Text>Sigla:</Text>
             <Text fontWeight={600} color={"gray.500"} mb={2}>
               {data.Loja_Sigla}
             </Text>
+
+            <Text>CNPJ:</Text>
             <Text fontWeight={600} color={"gray.500"} mb={4}>
               {data.CNPJ}
             </Text>
@@ -62,18 +67,44 @@ export function GetStoreModal(  { data }: StoreProps  ) {
               color={useColorModeValue("gray.700", "gray.400")}
             >
               <Stack spacing="4">
-                <Text>{data.faturamento_inicio}</Text>
-                <Text>{data.Loja_UF}</Text>
-                <Text>{data.Loja_Cidade}</Text>
-                <Text>{data.Responsavel}</Text>
-                <Text>{data.Responsavel_Email}</Text>
-                <Text>{data.Loja_Endereco}</Text>
-                <Text>{data.URL}</Text>
+                <Box fontWeight="bold">
+                  <Text>Inicio:</Text>
+                  <Text>{data.faturamento_inicio}</Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="bold">Estado:</Text>
+                  <Text>{data.Loja_UF}</Text>
+                </Box>
+                <Box>
+                  <Text fontWeight="bold">Cidade:</Text>
+                  <Text>{data.Loja_Cidade}</Text>
+                </Box>
+
+                <Box>
+                  <Text fontWeight="bold">Responsavel:</Text>
+                  <Text>{data.Responsavel}</Text>
+                </Box>
+
+                <Box>
+                  <Text fontWeight="bold">Email:</Text>
+                  <Text>{data.Responsavel_Email}</Text>
+                </Box>
+
+                <Box>
+                  <Text fontWeight="bold">Endereço:</Text>
+                  <Text>{data.Loja_Endereco}</Text>
+                </Box>
+
+                <Box>
+                  <Text fontWeight="bold">Link:</Text>
+                  <Link href={data.URL ? data.URL : ""} isExternal>
+                    <Text>{data.URL}</Text>
+                  </Link>
+                </Box>
               </Stack>
-              
             </Box>
 
-            <Stack align={"center"} justify={"center"} direction={"row"} mt={6} >
+            <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
               <Button
                 flex={1}
                 fontSize={"sm"}
@@ -89,6 +120,7 @@ export function GetStoreModal(  { data }: StoreProps  ) {
                 _focus={{
                   bg: "blue.500",
                 }}
+                onClick={() => router.push(`/lojas/${data.Loja_Sigla}`)}
               >
                 Editar
               </Button>
