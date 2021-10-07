@@ -82,6 +82,18 @@ export default function Store() {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(createStoreFormSchema),
+    // defaultValues: {
+    //   Loja: data.Loja,
+    //   Loja_Sigla: data.Loja_Sigla,
+    //   Loja_Endereco: data.Loja_Endereco,
+    //   CNPJ: data.CNPJ,
+    //   Loja_Cidade: data.Loja_Cidade,
+    //   Loja_UF: data.Loja_UF,
+    //   Loja_Telefone: data.Loja_Telefone,
+    //   Responsavel: data.Responsavel,
+    //   Responsavel_Email: data.Responsavel_Email,
+    //   Responsavel_Telefone: data.Responsavel_Telefone,
+    // },
   });
 
   const handleEditStore: SubmitHandler<CreateStoreFormData> = async (
@@ -101,7 +113,14 @@ export default function Store() {
       <Header />
       <Flex w="100%" maxWidth={1840}>
         <SideMenu />
-        <Box flex="1" borderEndRadius={8} bg="white" p="8">
+        <Box
+          flex="1"
+          borderEndRadius={8}
+          bg="white"
+          p="8"
+          as="form"
+          onSubmit={handleSubmit(handleEditStore)}
+        >
           {isLoading ? (
             <Flex justify="center">
               <Spinner />
@@ -114,38 +133,42 @@ export default function Store() {
                 <SimpleGrid columns={3} spacing="10" w="100%">
                   <Input
                     label="Nome da loja"
+                    defaultValue={data.loja}
                     error={errors.Loja}
-                    value={data.loja}
                     {...register("Loja")}
                   />
                   <Input
                     label="Sigla Loja"
                     error={errors.Loja_Sigla}
                     value={data.loja_sigla}
-                    isDisabled={true}
+                    isReadOnly={true}
                     {...register("Loja_Sigla")}
                     placeholder="Exemplo SP-PAULISTA"
                   />
-                  <Input label="CNPJ" {...register("CNPJ")} value={data.CNPJ} />
+                  <Input
+                    label="CNPJ"
+                    {...register("CNPJ")}
+                    defaultValue={data.CNPJ}
+                  />
                 </SimpleGrid>
 
                 <Input
                   label="Endereço"
-                  value={data.Loja_Endereco}
+                  defaultValue={data.Loja_Endereco}
                   error={errors.Loja_Endereco}
                   {...register("Loja_Endereco")}
                 />
                 <SimpleGrid columns={4} spacing="10" w="100%">
                   <Input
                     label="cidade"
-                    value={data.Loja_Cidade}
+                    defaultValue={data.Loja_Cidade}
                     error={errors.Loja_Cidade}
                     {...register("Loja_Cidade")}
                     w="50"
                   />
                   <Input
                     label="UF"
-                    value={data.Loja_UF}
+                    defaultValue={data.Loja_UF}
                     error={errors.Loja_UF}
                     {...register("Loja_UF")}
                     w="20"
@@ -155,25 +178,25 @@ export default function Store() {
                 <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
                   <Input
                     label="Telefone Loja"
-                    value={data.Loja_Telefone}
+                    defaultValue={data.Loja_Telefone}
                     error={errors.Loja_Telefone}
                     {...register("Loja_Telefone")}
                   />
                   <Input
                     label="Responsavel"
-                    value={data.Responsavel}
+                    defaultValue={data.Responsavel}
                     error={errors.Responsavel}
                     {...register("Responsavel")}
                   />
                   <Input
                     label="Email"
-                    value={data.Responsavel_Email}
+                    defaultValue={data.Responsavel_Email}
                     error={errors.Responsavel_Email}
                     {...register("Responsavel_Email")}
                   />
                   <Input
                     label="Contato"
-                    value={data.Responsavel_Telefone}
+                    defaultValue={data.Responsavel_Telefone}
                     error={errors.Responsavel_Telefone}
                     {...register("Responsavel_Telefone")}
                   />
