@@ -23,7 +23,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useStores } from "services/hooks/stores/useStores";
+import { useStores } from "@services/hooks/stores/stores.service";
 
 import { useInvoicesByStore } from "../../services/hooks/useInvoices";
 

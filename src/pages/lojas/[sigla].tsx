@@ -1,4 +1,4 @@
-/* eslint-disable no-nested-ternary */
+
 import {
   Box,
   Flex,
@@ -10,6 +10,7 @@ import {
   HStack,
   Button,
   Spinner,
+  Input as ChakraInput,
 } from "@chakra-ui/react";
 import { Input } from "@components/Form/Input";
 import { Header } from "@components/Header";
@@ -26,6 +27,7 @@ import { useMutation } from "react-query";
 import * as yup from "yup";
 
 const createStoreFormSchema = yup.object().shape({
+  id: yup.number(),
   Loja_Sigla: yup.string().required("Sigla Obrigátorio"),
   CNPJ: yup.number().required("CNPJ Obrigátorio"),
   Loja: yup.string().required("Nome Obrigátorio"),
@@ -45,14 +47,16 @@ const createStoreFormSchema = yup.object().shape({
 
 export default function Store() {
   const router = useRouter();
-  const toast = useToast();
   const { sigla } = router.query;
-  const { data, isLoading } = useGetStore(sigla as string);
+  const toast = useToast();
+  
+  const { data, isLoading, error }  = useGetStore(sigla);
 
   const editStore = useMutation(
     async (store: CreateStoreFormData) => {
-      const { data: response } = await api.post("/stores", store);
-      return response.data;
+      // const { data: response } = await api.put(`/stores/${store.id}`, store);
+      // return response.data;
+      return console.log(store)
     },
     {
       onError: () => {
@@ -66,7 +70,7 @@ export default function Store() {
       onSuccess: () => {
         queryClient.invalidateQueries("stores");
         toast({
-          title: "Loja Criada com Sucesso",
+          title: "Loja Editada Com sucesso",
           status: "success",
           duration: 2000,
           isClosable: true,
@@ -82,18 +86,6 @@ export default function Store() {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(createStoreFormSchema),
-    // defaultValues: {
-    //   Loja: data.Loja,
-    //   Loja_Sigla: data.Loja_Sigla,
-    //   Loja_Endereco: data.Loja_Endereco,
-    //   CNPJ: data.CNPJ,
-    //   Loja_Cidade: data.Loja_Cidade,
-    //   Loja_UF: data.Loja_UF,
-    //   Loja_Telefone: data.Loja_Telefone,
-    //   Responsavel: data.Responsavel,
-    //   Responsavel_Email: data.Responsavel_Email,
-    //   Responsavel_Telefone: data.Responsavel_Telefone,
-    // },
   });
 
   const handleEditStore: SubmitHandler<CreateStoreFormData> = async (
@@ -101,8 +93,7 @@ export default function Store() {
   ) => {
     try {
       const store = values;
-      console.log(values);
-      // await editStore.mutateAsync(store);
+      await editStore.mutateAsync(store);
     } catch (error) {
       console.log(error);
     }
@@ -125,15 +116,18 @@ export default function Store() {
             <Flex justify="center">
               <Spinner />
             </Flex>
+          ) : error ? (
+            <h1>Erro</h1>
           ) : (
             <>
-              <Heading textAlign="center">Editar {data.Loja}</Heading>
+              <Heading textAlign="center">Editar {data.loja}</Heading>
               <Divider my="6" borderColor="gray.100" />
+              <ChakraInput type="hidden" value={data.id} {...register("id")}/>
               <VStack spacing="8" alignItems="start">
                 <SimpleGrid columns={3} spacing="10" w="100%">
                   <Input
                     label="Nome da loja"
-                    defaultValue={data.loja}
+                    defaultValue={data.Loja}
                     error={errors.Loja}
                     {...register("Loja")}
                   />

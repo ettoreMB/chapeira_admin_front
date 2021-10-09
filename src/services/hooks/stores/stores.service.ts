@@ -10,17 +10,7 @@ type getStoresResponse = {
 
 export async function getStore(loja_sigla: string): Promise<IStoreDto | any> {
   const { data } = await api.get(`/stores/${loja_sigla}`);
-  return {
-    ...data,
-    id: data.id,
-    loja: data.Loja,
-    loja_sigla: data.Loja_Sigla,
-    CNPJ: data.CNPJ,
-    uf: data.Loja_UF,
-    ativo: data.Ativo,
-    responsavel: data.Responsavel,
-    responsavel_email: data.Responsavel_Email,
-  };
+  return data
 }
 
 export async function getStores(): Promise<getStoresResponse | any> {
@@ -60,7 +50,7 @@ export function useGetStores() {
 }
 
 export function useGetStore(Loja_Sigla: string) {
-  return useQuery(["store", Loja_Sigla], async () => getStore(Loja_Sigla));
+  return useQuery(["store", Loja_Sigla], () => getStore(Loja_Sigla));
 }
 
 export function useStoreDashBoard(sigla: string) {

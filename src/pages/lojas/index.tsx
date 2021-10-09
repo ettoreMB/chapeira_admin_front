@@ -20,7 +20,7 @@ import { LoadingError } from "@components/LoadingError";
 import { SideMenu } from "@components/SideMenu";
 import { TableTdText } from "@components/Table/TableTdText";
 import { api } from "@services/api";
-import { IStoreDto, Store } from "@services/hooks/Dtos/StoreDto";
+import { Store } from "@services/hooks/Dtos/StoreDto";
 import { useGetStores } from "@services/hooks/stores/stores.service";
 import { queryClient } from "@services/queryClient";
 import Link from "next/link";
