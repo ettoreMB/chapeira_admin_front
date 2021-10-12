@@ -9,10 +9,11 @@ import {
   useColorModeValue,
   Button,
   Stack,
-  Link,
+  Link as ChakraLink   ,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-
+import { useState } from "react";
+import Link from 'next/link'
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 
 type StoreProps = {
@@ -34,6 +35,7 @@ type StoreProps = {
 
 export function GetStoreModal({ data }: StoreProps) {
   const { isOpen, onClose } = useGetStoreModal();
+  const [storeSigla, setStoreSigla] = useState('');
   const router = useRouter();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
@@ -97,7 +99,7 @@ export function GetStoreModal({ data }: StoreProps) {
 
                 <Box>
                   <Text fontWeight="bold">Link:</Text>
-                  <Link href={data.URL ? data.URL : ""} isExternal>
+                  <Link href={data.URL ? data.URL : ""}>
                     <Text>{data.URL}</Text>
                   </Link>
                 </Box>
@@ -105,25 +107,11 @@ export function GetStoreModal({ data }: StoreProps) {
             </Box>
 
             <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-              <Button
-                flex={1}
-                fontSize={"sm"}
-                rounded={"full"}
-                bg={"blue.400"}
-                color={"white"}
-                boxShadow={
-                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                }
-                _hover={{
-                  bg: "blue.500",
-                }}
-                _focus={{
-                  bg: "blue.500",
-                }}
-                onClick={() => router.push(`/lojas/${data.Loja_Sigla}`)}
-              >
+              <Link href={`/lojas/${data.Loja_Sigla}`}>
+              
                 Editar
-              </Button>
+           
+              </Link>
             </Stack>
             <Stack mt={4} direction={"row"} spacing={4}>
               <Button
@@ -132,7 +120,7 @@ export function GetStoreModal({ data }: StoreProps) {
                 rounded={"full"}
                 bg={"yellow.400"}
                 color={"white"}
-                onClick={() => router.push(`/faturas/${data.Loja_Sigla}`)}
+                
                 boxShadow={
                   "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
                 }
