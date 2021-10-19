@@ -123,10 +123,10 @@ export default function CreateInvoice() {
                     }}
                     size="lg"
                   >
-                    {data.stores.map((stores: any) => {
+                    {data?.map((store: any) => {
                       return (
-                        <option value="" key={stores.id}>
-                          {stores.loja}
+                        <option value="" key={store.id}>
+                          {store.loja}
                         </option>
                       );
                     })}

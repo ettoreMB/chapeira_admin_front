@@ -27,15 +27,7 @@ export default function FaturasIndex() {
   const [isPaid, setIsPaid] = useState(false);
   const [isPendent, setPendent] = useState(false);
 
-  const handleGetPaid = () => {
-    if (isPendent == true) {
-      setIsPaid(false);
-    }
-
-    setIsPaid(true);
-  };
-
-  const invoices = data.filter((invoice: InvoiceDto) => {
+  const invoices = data?.filter((invoice: InvoiceDto) => {
     if (isPaid) {
       return invoice.pago == true;
     } else if (isPendent) {

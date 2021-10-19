@@ -64,7 +64,7 @@ export default function FaturasBySigla() {
               }}
               size="lg"
             >
-              {stores.data.stores.map((store: any) => {
+              {stores.data?.map((store: any) => {
                 return (
                   <option value="" key={store.id}>
                     {store.loja}
