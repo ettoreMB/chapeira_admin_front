@@ -11,21 +11,19 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
+import { Input } from "@components/Form/Input";
+import { Header } from "@components/Header";
+import { SideMenu } from "@components/SideMenu";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
+import { api } from "@services/api";
+import { queryClient } from "@services/queryClient";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import * as yup from "yup";
 
-import { Input } from "../../components/Form/Input";
-import { Header } from "../../components/Header";
-import { SideMenu } from "../../components/SideMenu";
 import { convertDate } from "../../masks/masks";
-import { api } from "../../services/api";
-import { useStores } from "../../services/hooks/stores/useStores";
-import { queryClient } from "../../services/queryClient";
 
 type CreateInvoiceFormData = {
   Nota_Fiscal: string;
@@ -85,7 +83,6 @@ export default function CreateInvoice() {
       Data_Faturamento: convertDate(data.Data_Faturamento),
       Data_Vencimento: convertDate(data.Data_Vencimento),
     };
-    console.log(invoice);
     await createInvoice.mutateAsync(invoice);
   };
 
@@ -93,13 +90,13 @@ export default function CreateInvoice() {
     <>
       <Box>
         <Header />
-        <Flex w="100%" my="6" maxWidth={1840} mx="auto" px="6">
+        <Flex w="100%">
           <SideMenu />
           <Box
             flex="1"
-            borderEndRadius={8}
             bg="white"
             p="8"
+            h="90vh"
             as="form"
             onSubmit={handleSubmit(handleCreateInvoice)}
           >
@@ -127,7 +124,7 @@ export default function CreateInvoice() {
                   >
                     {data.stores.map((stores: any) => {
                       return (
-                        <option value="" key={stores.is}>
+                        <option value="" key={stores.id}>
                           {stores.loja}
                         </option>
                       );

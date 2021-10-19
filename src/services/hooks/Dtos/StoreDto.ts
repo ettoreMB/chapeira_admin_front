@@ -1,27 +1,34 @@
-export interface IStoreDto {
+export type Store = {
   id: string;
+  loja: string;
+  loja_sigla: string;
+  ativo: boolean;
+  cnpj: number;
+  responsavel: string;
+  responsavel_email: string;
+  cidade: string;
+  loja_endereco: string;
+  uf: string;
+  inicio: Date;
+  endereco: string;
+  url: string;
+};
+
+export interface IStoreDto {
+  id: number;
   Loja: string;
   Loja_Sigla: string;
   Ativo: boolean;
   CNPJ: number;
   Responsavel: string;
   Responsavel_Email: string;
+  Responsavel_Telefone: string;
+  Loja_UF: string;
   Loja_Cidade: string;
   Loja_Endereco: string;
-  Loja_UF: string;
+  URL: string;
+  Insert_Date: Date;
 }
-
-export type Store = {
-  id: number;
-  loja: string;
-  loja_sigla: string;
-  ativo: boolean;
-  CNPJ: number;
-  responsavel: string;
-  responsavel_email: string;
-  responsavel_telefone: string;
-  uf: string;
-};
 
 export interface StoreDashBoardProps {
   data: any;
@@ -33,12 +40,14 @@ export interface StoreDashBoardProps {
 }
 
 export type CreateStoreFormData = {
+  id?: string;
   Loja: string;
   Loja_Sigla: string;
   Loja_Endereco: string;
   Loja_Cidade: string;
   Loja_UF: string;
   CNPJ: number;
+  URL: string;
   Responsavel: string;
   Responsavel_Email: string;
   Responsavel_Telefone: string;

@@ -6,7 +6,7 @@ import {
   useBreakpointValue,
   Link as ChakraLink,
 } from "@chakra-ui/react";
-import Link  from "next/link";
+import Link from "next/link";
 import { RiMenuLine } from "react-icons/ri";
 
 import { useSideMenuDrawer } from "../../contexts/SideMenuDrawerContext";

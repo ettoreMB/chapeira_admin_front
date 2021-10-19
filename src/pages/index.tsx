@@ -8,7 +8,7 @@ export default function Home() {
       <Header />
       <Flex w="100%">
         <SideMenu />
-        <Box flex="1" borderEndRadius={8} bg="white" p="8">
+        <Box flex="1" bg="white" p="8" h="90vh">
           <Center>
             <h1>Sistema de Administração Chapeira</h1>
           </Center>

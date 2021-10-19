@@ -2,47 +2,41 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  Heading,
-  Text,
-  Box,
   Center,
   useColorModeValue,
   Button,
   Stack,
-  Link as ChakraLink   ,
+  Text,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
+import { IStoreDto } from "@services/hooks/Dtos/StoreDto";
+import { getStore, useGetStore } from "@services/hooks/stores/stores.service";
+import { queryClient } from "@services/queryClient";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Link from 'next/link'
+import { useQuery } from "react-query";
+
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 
-type StoreProps = {
-  data: {
-    id: number;
-    Loja: string;
-    Loja_Sigla: string;
-    CNPJ: number;
-    Loja_Cidade: string;
-    Loja_UF: string;
-    ativo: boolean;
-    Responsavel: string;
-    Responsavel_Email: string;
-    Loja_Endereco: string;
-    URL: string;
-    faturamento_inicio: Date;
-  };
-};
-
-export function GetStoreModal({ data }: StoreProps) {
+export function GetStoreModal(loja: string) {
   const { isOpen, onClose } = useGetStoreModal();
-  const [storeSigla, setStoreSigla] = useState('');
+  const { isLoading, isError, data } = useQuery<any, Error>(
+    ["store", loja],
+    () => getStore(loja)
+  );
   const router = useRouter();
+
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
       <ModalContent>
         <Center py="6">
-          <Box
+          <Text>{JSON.stringify(data)}</Text>
+          {/* <Box
             p="6"
             maxWidth={380}
             w="full"
@@ -52,12 +46,12 @@ export function GetStoreModal({ data }: StoreProps) {
             rounded="lg"
           >
             <Heading fontSize="4xl" fontFamily={"body"} mb={1}>
-              {data.Loja}
+              {data.loja}
             </Heading>
 
             <Text>Sigla:</Text>
             <Text fontWeight={600} color={"gray.500"} mb={2}>
-              {data.Loja_Sigla}
+              {data.loja_sigla}
             </Text>
 
             <Text>CNPJ:</Text>
@@ -75,7 +69,7 @@ export function GetStoreModal({ data }: StoreProps) {
                 </Box>
                 <Box>
                   <Text fontWeight="bold">Estado:</Text>
-                  <Text>{data.Loja_UF}</Text>
+                  <Text>{data.uf}</Text>
                 </Box>
                 <Box>
                   <Text fontWeight="bold">Cidade:</Text>
@@ -84,12 +78,12 @@ export function GetStoreModal({ data }: StoreProps) {
 
                 <Box>
                   <Text fontWeight="bold">Responsavel:</Text>
-                  <Text>{data.Responsavel}</Text>
+                  <Text>{data.responsavel}</Text>
                 </Box>
 
                 <Box>
                   <Text fontWeight="bold">Email:</Text>
-                  <Text>{data.Responsavel_Email}</Text>
+                  <Text>{data.responsavel_email}</Text>
                 </Box>
 
                 <Box>
@@ -107,11 +101,25 @@ export function GetStoreModal({ data }: StoreProps) {
             </Box>
 
             <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
-              <Link href={`/lojas/${data.Loja_Sigla}`}>
-              
+              <Button
+                flex={1}
+                fontSize={"sm"}
+                rounded={"full"}
+                bg={"yellow.400"}
+                color={"white"}
+                onClick={() => router.push(`/lojas/${data.loja_sigla}`)}
+                boxShadow={
+                  "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                }
+                _hover={{
+                  bg: "blue.500",
+                }}
+                _focus={{
+                  bg: "blue.500",
+                }}
+              >
                 Editar
-           
-              </Link>
+              </Button>
             </Stack>
             <Stack mt={4} direction={"row"} spacing={4}>
               <Button
@@ -120,7 +128,6 @@ export function GetStoreModal({ data }: StoreProps) {
                 rounded={"full"}
                 bg={"yellow.400"}
                 color={"white"}
-                
                 boxShadow={
                   "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
                 }
@@ -134,7 +141,7 @@ export function GetStoreModal({ data }: StoreProps) {
                 Faturamento
               </Button>
             </Stack>
-          </Box>
+          </Box> */}
         </Center>
       </ModalContent>
     </Modal>

@@ -60,11 +60,12 @@ export default function CreateStore() {
     async (store: CreateStoreFormData) => {
       const { data: response } = await api.post("/stores", store);
       return response.data;
+      // console.log(store);
     },
     {
       onError: () => {
         toast({
-          title: "loja Já cadastrada no sistema",
+          title: "Erro ao cadastrar Loja",
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -105,9 +106,17 @@ export default function CreateStore() {
   return (
     <Box>
       <Header />
-      <Flex w="100%" maxWidth={1840}>
+      <Flex w="100%">
         <SideMenu />
-        <Box flex="1" borderEndRadius={8} bg="white" p="8">
+        <Box
+          flex="1"
+          h="90vh"
+          borderEndRadius={8}
+          bg="white"
+          p="8"
+          as="form"
+          onSubmit={handleSubmit(handleCreateStore)}
+        >
           <Heading textAlign="center">Criar Nova Loja</Heading>
           <Divider my="6" borderColor="gray.100" />
 
