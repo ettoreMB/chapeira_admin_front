@@ -1,7 +1,7 @@
-import { useToast, Button } from "@chakra-ui/react"
+import { useToast, Button } from "@chakra-ui/react";
 
 export function ToastExample() {
-  const toast = useToast()
+  const toast = useToast();
   return (
     <Button
       onClick={() =>
@@ -16,5 +16,5 @@ export function ToastExample() {
     >
       Show Toast
     </Button>
-  )
+  );
 }

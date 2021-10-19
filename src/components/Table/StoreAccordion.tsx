@@ -7,14 +7,10 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Heading,
-  Flex,
-  useColorModeValue,
   Link as ChakraLink,
   HStack,
 } from "@chakra-ui/react";
-import { TableTdText } from "@components/Table/TableTdText";
-import { IStoreDto, Store } from "@services/hooks/Dtos/StoreDto";
+import { Store } from "@services/hooks/Dtos/StoreDto";
 import { getStore } from "@services/hooks/stores/stores.service";
 import { queryClient } from "@services/queryClient";
 import Link from "next/link";

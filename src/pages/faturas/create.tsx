@@ -16,6 +16,7 @@ import { Header } from "@components/Header";
 import { SideMenu } from "@components/SideMenu";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@services/api";
+import { useGetStore } from "@services/hooks/stores/stores.service";
 import { queryClient } from "@services/queryClient";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -48,7 +49,7 @@ export default function CreateInvoice() {
 
   const sigla = "";
 
-  const { data, error } = useStores(sigla);
+  const { data, error } = useGetStore(sigla);
 
   const createInvoice = useMutation(
     async (data: CreateInvoiceFormData) => {

@@ -8,10 +8,8 @@ type getStoresResponse = {
   stores: IStoreDto[];
 };
 
-export async function getStores(
-  filter: string
-): Promise<getStoresResponse | any> {
-  const { data } = await api.get("/stores", { params: { uf: filter } });
+export async function getStores(): Promise<getStoresResponse | any> {
+  const { data } = await api.get("/stores");
   const stores = data.map((store: IStoreDto) => {
     return {
       id: store.id,

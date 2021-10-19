@@ -4,13 +4,10 @@ import {
   Flex,
   Heading,
   Icon,
-  Text,
   Table,
   Thead,
-  Checkbox,
   Th,
   Tbody,
-  Td,
   Tr,
   Select,
   Input,
@@ -18,19 +15,11 @@ import {
 import { Header } from "@components/Header";
 import { SideMenu } from "@components/SideMenu";
 import { InvoiceTableRow } from "@components/Table/InvoiceTableRow";
-import { TableTdText } from "@components/Table/TableTdText";
-import { api } from "@services/api";
-import {
-  updatePaidInvoice,
-  useInvoices,
-  useUpdatePaidInvoice,
-} from "@services/hooks/invoices/invoices.service";
+import { InvoiceDto } from "@services/hooks/Dtos/InvoiceDto";
+import { useInvoices } from "@services/hooks/invoices/invoices.service";
 import Link from "next/link";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useMutation } from "react-query";
-import { Mutation } from "react-query/types/core/mutation";
+import { RiAddLine } from "react-icons/ri";
 
 export default function FaturasIndex() {
   const { data, isLoading } = useInvoices();
@@ -46,7 +35,7 @@ export default function FaturasIndex() {
     setIsPaid(true);
   };
 
-  const invoices = data.filter((invoice) => {
+  const invoices = data.filter((invoice: InvoiceDto) => {
     if (isPaid) {
       return invoice.pago == true;
     } else if (isPendent) {

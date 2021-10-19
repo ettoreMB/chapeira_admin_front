@@ -1,7 +1,6 @@
 import { Flex, Center, Box } from "@chakra-ui/react";
-
-import { Header } from "../components/Header";
-import { SideMenu } from "../components/SideMenu";
+import { Header } from "@components/Header";
+import { SideMenu } from "@components/SideMenu";
 export default function Home() {
   return (
     <>

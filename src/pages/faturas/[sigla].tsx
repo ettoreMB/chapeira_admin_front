@@ -19,20 +19,22 @@ import { Header } from "@components/Header";
 import { LoadingError } from "@components/LoadingError";
 import { SideMenu } from "@components/SideMenu";
 import { TableTdText } from "@components/Table/TableTdText";
+import { InvoiceDto } from "@services/hooks/Dtos/InvoiceDto";
+import {
+  useGetStores,
+  useGetStore,
+} from "@services/hooks/stores/stores.service";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
-import { useStores } from "@services/hooks/stores/stores.service";
-
-import { useInvoicesByStore } from "../../services/hooks/useInvoices";
 
 export default function FaturasBySigla() {
   const router = useRouter();
   const { sigla } = router.query;
-  const stores = useStores();
+  const stores = useGetStores();
   const [storeInitial, setStoreInital] = useState("");
-  const { data, isLoading, error } = useInvoicesByStore(sigla as string);
+  const { data, isLoading, error } = useGetStore(sigla as string);
 
   return (
     <Box>
@@ -62,10 +64,10 @@ export default function FaturasBySigla() {
               }}
               size="lg"
             >
-              {stores.data.stores.map((stores: any) => {
+              {stores.data.stores.map((store: any) => {
                 return (
-                  <option value="" key={stores.is}>
-                    {stores.loja}
+                  <option value="" key={store.id}>
+                    {store.loja}
                   </option>
                 );
               })}
@@ -108,7 +110,7 @@ export default function FaturasBySigla() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data?.map((invoice) => {
+                  {data?.map((invoice: InvoiceDto) => {
                     return (
                       <Tr key={invoice.id}>
                         <Td px={["4", "4", "6"]}>

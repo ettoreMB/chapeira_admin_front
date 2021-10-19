@@ -4,16 +4,14 @@ import {
   CircularProgress,
   CircularProgressLabel,
   Icon,
-  Image,
   Text,
   FormControl,
   FormErrorMessage,
   Flex,
   useToast,
   Tooltip,
-} from '@chakra-ui/react';
-import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
-import {  FiAlertCircle, FiFile } from 'react-icons/fi';
+} from "@chakra-ui/react";
+import axios, { AxiosRequestConfig, CancelTokenSource } from "axios";
 import {
   useState,
   SetStateAction,
@@ -22,20 +20,16 @@ import {
   forwardRef,
   useCallback,
   useEffect,
-} from 'react';
+} from "react";
 import {
   FieldError,
   FieldValues,
   UseFormSetError,
   UseFormTrigger,
-} from 'react-hook-form';
+} from "react-hook-form";
+import { FiAlertCircle, FiFile } from "react-icons/fi";
 
-
-
-import { api } from "../../services/api";
-
-
-export interface FileInputProps  {
+export interface FileInputProps {
   name: string;
   error?: FieldError;
   setFileUrl: Dispatch<SetStateAction<string>>;
@@ -50,8 +44,9 @@ export interface FileInputProps  {
 
 const FileInputBase: ForwardRefRenderFunction<
   HTMLInputElement,
-  FileInputProps 
-> = ({
+  FileInputProps
+> = (
+  {
     name,
     error = null,
     setFileUrl,
@@ -61,99 +56,98 @@ const FileInputBase: ForwardRefRenderFunction<
     onChange,
     trigger,
     ...rest
-}, ref
-  ) => {
-    const toast = useToast()
-    const [progress, setProgress] = useState(0);
-    const [isSending, setIsSending] = useState(false);
-    const [cancelToken, setCancelToken] = useState<CancelTokenSource>(
-      {} as CancelTokenSource
-    );
+  },
+  ref
+) => {
+  const toast = useToast();
+  const [progress, setProgress] = useState(0);
+  const [isSending, setIsSending] = useState(false);
+  const [cancelToken, setCancelToken] = useState<CancelTokenSource>(
+    {} as CancelTokenSource
+  );
 
-    const handleFileUpload = useCallback(
-      async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-        if(!event.target.files?.length) {
-          return ;
-        }
-
-        setFileUrl('');
-        setLocalFileUrl('');
-        
-        setIsSending(true);
-
-        await onChange(event);
-        trigger('file');
-
-        const formData = new FormData();
-
-        formData.append(event.target.name,event.target.files[0]);
-
-        const { CancelToken } = axios;
-        const source = CancelToken.source();
-        setCancelToken(source);
-
-        const config = {
-          headers: {'content-type': 'multipart/form-data'},
-          onUploadProgress: (e: ProgressEvent) => {
-            setProgress(Math.round((e.loaded * 100) / e.total));
-          },
-          cancelToken: source.token,
-          } as AxiosRequestConfig;
-
-
-        } ,
-        [onChange, setFileUrl, setLocalFileUrl, trigger]
-    );
-
-    useEffect(() => {
-      if(error?.message && isSending && cancelToken?.cancel) {
-        cancelToken.cancel('Cancelled image upload.');
-        
+  const handleFileUpload = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+      if (!event.target.files?.length) {
+        return;
       }
-    }, [cancelToken, error, isSending]);
+
+      setFileUrl("");
+      setLocalFileUrl("");
+
+      setIsSending(true);
+
+      await onChange(event);
+      trigger("file");
+
+      const formData = new FormData();
+
+      formData.append(event.target.name, event.target.files[0]);
+
+      const { CancelToken } = axios;
+      const source = CancelToken.source();
+      setCancelToken(source);
+
+      const config = {
+        headers: { "content-type": "multipart/form-data" },
+        onUploadProgress: (e: ProgressEvent) => {
+          setProgress(Math.round((e.loaded * 100) / e.total));
+        },
+        cancelToken: source.token,
+      } as AxiosRequestConfig;
+    },
+    [onChange, setFileUrl, setLocalFileUrl, trigger]
+  );
+
+  useEffect(() => {
+    if (error?.message && isSending && cancelToken?.cancel) {
+      cancelToken.cancel("Cancelled image upload.");
+    }
+  }, [cancelToken, error, isSending]);
 
   return (
-    
     <FormControl isInvalid={!!error}>
       <FormLabel
         mx="auto"
         w={60}
         h={14}
         htmlFor={name}
-        cursor={isSending ? 'progress' : 'pointer'}
+        cursor={isSending ? "progress" : "pointer"}
         opacity={isSending ? 0.5 : 1}
       >
         {localFileUrl && !isSending ? (
           <Text>Arquivo</Text>
         ) : (
           <Flex
-          w="full"
-          h="full"
-          flexDir="column"
-          justifyContent="center"
-          alignItems="center"
-          borderRadius="md"
-          bgColor="gray.100"
-          color="gray.500"
-          borderWidth={error?.message && 2}
-            borderColor={error?.message && 'red.500'}
+            w="full"
+            h="full"
+            flexDir="column"
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="md"
+            bgColor="gray.100"
+            color="gray.500"
+            borderWidth={error?.message && 2}
+            borderColor={error?.message && "red.500"}
           >
             {isSending ? (
               <>
                 <CircularProgress
-                 trackColor="gray.200"
-                 value={progress}
-                 color='orange.500'
+                  trackColor="gray.200"
+                  value={progress}
+                  color="orange.500"
                 >
                   <CircularProgressLabel>{progress}%</CircularProgressLabel>
                 </CircularProgress>
-                <Text as="span" pt={2} textAlign="center">Enviando...</Text>
+                <Text as="span" pt={2} textAlign="center">
+                  Enviando...
+                </Text>
               </>
             ) : (
               <Box pos="relative" h="full">
-                {!! error && (
+                {!!error && (
                   <Tooltip label={error.message} bg="red.500">
-                     <FormErrorMessage
+                    <FormErrorMessage
                       pos="absolute"
                       right={2}
                       top={2}
@@ -165,21 +159,21 @@ const FileInputBase: ForwardRefRenderFunction<
                   </Tooltip>
                 )}
                 <Flex
-                h="full"
-                alignItems="center"
-                justifyContent="center"
-                flexDir="row"
+                  h="full"
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDir="row"
                 >
                   <Icon as={FiFile} w={8} h={8} />
-                  <Text as="span" pt={2} textAlign="center" fontSize='18'>
+                  <Text as="span" pt={2} textAlign="center" fontSize="18">
                     Adicione seu Arquivo
-                </Text>
+                  </Text>
                 </Flex>
               </Box>
             )}
           </Flex>
         )}
-        
+
         <input
           data-testid={name}
           disabled={isSending}
@@ -189,13 +183,13 @@ const FileInputBase: ForwardRefRenderFunction<
           ref={ref}
           type="file"
           style={{
-            display: 'none',
+            display: "none",
           }}
           {...rest}
         />
       </FormLabel>
     </FormControl>
-  ) 
-}
+  );
+};
 
-export const FileInput = forwardRef(FileInputBase)
+export const FileInput = forwardRef(FileInputBase);

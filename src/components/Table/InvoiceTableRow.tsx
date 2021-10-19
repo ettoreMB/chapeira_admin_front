@@ -1,19 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Icon,
-  Text,
-  Table,
-  Thead,
-  Checkbox,
-  Th,
-  Tbody,
-  Td,
-  Tr,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Button, Icon, Checkbox, Td, Tr, Input } from "@chakra-ui/react";
 import { TableTdText } from "@components/Table/TableTdText";
 import { api } from "@services/api";
 import { InvoiceDto } from "@services/hooks/Dtos/InvoiceDto";
@@ -21,10 +6,9 @@ import { RiPencilLine } from "react-icons/ri";
 
 interface InvoiceTableRowProps {
   invoice: InvoiceDto;
-  onUpdate: () => any;
 }
 
-export function InvoiceTableRow({ invoice, onUpdate }: InvoiceTableRowProps) {
+export function InvoiceTableRow({ invoice }: InvoiceTableRowProps) {
   return (
     <Tr>
       <TableTdText data={invoice.Nota_Fiscal} />
@@ -34,7 +18,7 @@ export function InvoiceTableRow({ invoice, onUpdate }: InvoiceTableRowProps) {
       <TableTdText data={invoice.Data_Faturamento} />
       <TableTdText data={invoice.Data_Vencimento} />
       <Td>
-        <Box onClick={onUpdate}>
+        <Box>
           {invoice.pago ? (
             <Checkbox colorScheme="green" isChecked={true} />
           ) : (

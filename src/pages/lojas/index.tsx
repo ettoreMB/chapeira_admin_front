@@ -4,27 +4,16 @@ import {
   Flex,
   Heading,
   Icon,
-  Table,
-  Thead,
-  Th,
-  Tbody,
-  Tr,
   Input,
   Spinner,
 } from "@chakra-ui/react";
-import { GetStoreModal } from "@components/GetStoreModal";
 import { Header } from "@components/Header";
 import { LoadingError } from "@components/LoadingError";
 import { SideMenu } from "@components/SideMenu";
 import { StoreAccordion } from "@components/Table/StoreAccordion";
-import { IStoreDto, Store } from "@services/hooks/Dtos/StoreDto";
-import {
-  useGetStore,
-  useGetStores,
-} from "@services/hooks/stores/stores.service";
-import { queryClient } from "@services/queryClient";
+import { Store } from "@services/hooks/Dtos/StoreDto";
+import { useGetStores } from "@services/hooks/stores/stores.service";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import { RiAddLine } from "react-icons/ri";
 
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";

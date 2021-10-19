@@ -11,7 +11,7 @@ type GetInvoiceProps = {
 export async function getInvoices() {
   const { data } = await api.get("/invoices");
 
-  const invoices = data.map((invoice: Invoice) => {
+  const invoices = data.map((invoice: InvoiceDto) => {
     return {
       id: invoice.id,
       loja_sigla: invoice.Loja_Sigla,
