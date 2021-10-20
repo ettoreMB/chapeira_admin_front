@@ -11,7 +11,7 @@ export function InvoiceTableRow({ invoice }: InvoiceTableRowProps) {
   return (
     <Tr>
       <TableTdText data={invoice.id} /> 
-      <TableTdText data={invoice.loja_sigla} />
+      <TableTdText data={invoice.Loja_Sigla} />
       <TableTdText data={invoice.Valor_Nota} />
       <TableTdText data={invoice.Valor_Servicos} />
       <TableTdText data={invoice.Data_Faturamento} />
