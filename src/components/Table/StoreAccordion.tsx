@@ -13,7 +13,6 @@ import {
 import { Store } from "@services/hooks/Dtos/StoreDto";
 import { getStore } from "@services/hooks/stores/stores.service";
 import { queryClient } from "@services/queryClient";
-import Link from "next/link";
 import router from "next/router";
 
 interface StoreTableRowProps {
@@ -91,10 +90,10 @@ export function StoreAccordion({ stores }: StoreTableRowProps) {
           <HStack mb="4">
             <Box>
               <Text fontWeight="bold">Link:</Text>
-              <ChakraLink>
-                <Link href={stores.url ? stores.url : ""}>
+              <ChakraLink href={stores.url ? stores.url : ""}>
+               
                   <Text>{stores.url}</Text>
-                </Link>
+               
               </ChakraLink>
             </Box>
           </HStack>

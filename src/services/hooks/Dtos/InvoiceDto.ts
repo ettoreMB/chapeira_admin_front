@@ -1,7 +1,3 @@
-const InvoiceStatus = {
-  Paid: true,
-  Pending: true,
-};
 
 export type InvoiceDto = {
   id: string;
@@ -17,4 +13,9 @@ export type InvoiceDto = {
   pendente: boolean;
 };
 
-export { InvoiceStatus };
+export enum InvoiceStatus {
+  pago,
+  pendente,
+}
+
+
