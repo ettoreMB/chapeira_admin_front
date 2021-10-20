@@ -90,10 +90,8 @@ export function StoreAccordion({ stores }: StoreTableRowProps) {
           <HStack mb="4">
             <Box>
               <Text fontWeight="bold">Link:</Text>
-              <ChakraLink href={stores.url ? stores.url : ""}>
-               
+              <ChakraLink href={stores.url ? stores.url : ""} isExternal>
                   <Text>{stores.url}</Text>
-               
               </ChakraLink>
             </Box>
           </HStack>
