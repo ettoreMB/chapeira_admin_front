@@ -5,7 +5,7 @@ const InvoiceStatus = {
 
 export type InvoiceDto = {
   id: string;
-  Loja_Sigla: string;
+  loja_sigla: string;
   Nota_Fiscal: string;
   Data_Faturamento: Date;
   Data_Vencimento: Date;

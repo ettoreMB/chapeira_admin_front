@@ -9,7 +9,7 @@ type getStoresResponse = {
 };
 
 export async function getStores(): Promise<getStoresResponse | any> {
-  const { data } = await api.get("/stores");
+  const { data } = await api.get("/stores/?uf=''");
   const stores = data.map((store: IStoreDto) => {
     return {
       id: store.id,

@@ -23,7 +23,7 @@ import { RiAddLine } from "react-icons/ri";
 
 export default function FaturasIndex() {
   const { data, isLoading } = useInvoices();
-
+  
   const [isPaid, setIsPaid] = useState(false);
   const [isPendent, setPendent] = useState(false);
 
@@ -36,7 +36,6 @@ export default function FaturasIndex() {
       return data;
     }
   });
-
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -100,8 +99,8 @@ export default function FaturasIndex() {
               </Thead>
 
               <Tbody>
-                {invoices?.map((invoice: any) => (
-                  <InvoiceTableRow invoice={invoice} key={invoice.id} />
+                {invoices.map((invoice: any) => (
+                   <InvoiceTableRow invoice={invoice} key={invoice.id} />
                 ))}
               </Tbody>
             </Table>

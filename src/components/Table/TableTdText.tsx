@@ -1,9 +1,9 @@
 import { Box, Td, Text, TextProps } from "@chakra-ui/react";
 
 interface TableProps extends TextProps {
-  data: string | Date | number;
+  data: string | number | Date;
 }
-export function TableTdText(data: TableProps) {
+export function TableTdText({data}: TableProps) {
   return (
     <Td>
       <Box>
