@@ -44,7 +44,7 @@ export function InvoiceTableRow({ invoice }: InvoiceTableRowProps) {
           colorScheme="yellow"
           leftIcon={<Icon as={RiPencilLine} fontSize="20" />}
         ></Button>
-      </Td> */}
+      </Td> 
     </Tr>
   );
 }
