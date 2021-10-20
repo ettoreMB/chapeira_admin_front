@@ -117,7 +117,7 @@ export default function FaturasBySigla() {
                           <Checkbox colorScheme="green" />
                         </Td>
                         <TableTdText data={invoice.Nota_Fiscal} />
-                        <TableTdText data={invoice.Loja_Sigla} />
+                        <TableTdText data={invoice.loja_sigla} />
                         <TableTdText data={invoice.Valor_Nota} />
                         <TableTdText data={invoice.Valor_Servicos} />
                         <TableTdText data={invoice.Data_Faturamento} />
