@@ -11,6 +11,7 @@ import {
   Tr,
   Select,
   Input,
+  Spinner
 } from "@chakra-ui/react";
 import { Header } from "@components/Header";
 import { SideMenu } from "@components/SideMenu";
@@ -36,9 +37,7 @@ export default function FaturasIndex() {
       return data;
     }
   });
-  if (isLoading) {
-    return <h1>Loading</h1>;
-  }
+
   return (
     <>
       <Header />
@@ -81,30 +80,35 @@ export default function FaturasIndex() {
               </Button>
             </Link>
           </Flex>
-
-          <>
-            <Table colorScheme="whiteAlpha">
-              <Thead>
-                <Tr>
-                  <Th>Nota</Th>
-                  <Th>Loja-sigla</Th>
-                  <Th>valor nota</Th>
-                  <Th>valor serviços</Th>
-                  <Th>emissão</Th>
-                  <Th>pagamento</Th>
-                  <Th>pago</Th>
-                  <Th>pendente</Th>
-                  <Th width="8"></Th>
-                </Tr>
-              </Thead>
-
-              <Tbody>
-                {invoices.map((invoice: any) => (
-                   <InvoiceTableRow invoice={invoice} key={invoice.id} />
-                ))}
-              </Tbody>
-            </Table>
-          </>
+            {isLoading ? (
+            <Flex justify="center">
+              <Spinner />
+            </Flex>) : 
+            (
+              <>
+              <Table colorScheme="whiteAlpha">
+                <Thead>
+                  <Tr>
+                    <Th>Nota</Th>
+                    <Th>Loja-sigla</Th>
+                    <Th>valor nota</Th>
+                    <Th>valor serviços</Th>
+                    <Th>emissão</Th>
+                    <Th>pagamento</Th>
+                    <Th>pago</Th>
+                    <Th>pendente</Th>
+                    <Th width="8"></Th>
+                  </Tr>
+                </Thead>
+  
+                <Tbody>
+                  {invoices.map((invoice: any) => (
+                     <InvoiceTableRow invoice={invoice} key={invoice.id} />
+                  ))}
+                </Tbody>
+              </Table>
+            </>
+            )}
         </Box>
       </Flex>
     </>
