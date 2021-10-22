@@ -5,7 +5,7 @@ interface TableProps extends TextProps {
 }
 export function TableTdText({data}: TableProps) {
   return (
-    <Td>
+    <Td >
       <Box>
         <Text fontWeight="bold">{data}</Text>
       </Box>

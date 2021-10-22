@@ -11,7 +11,21 @@ export type InvoiceDto = {
   Valor_Servicos: number;
   pago: boolean;
   pendente: boolean;
+  Data_Pagamento: Date;
 };
+
+export type InvoiceProps = {
+  id: number;
+  loja_sigla: string,
+  Nota_Fiscal: string;
+  faturamento: Date;
+  vencimento: Date;
+  valor_nota: number;
+  valor_servicos: number;
+  pago: boolean
+  pendente: boolean;
+  data_pagamento: Date;
+}
 
 export enum InvoiceStatus {
   pago,

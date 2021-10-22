@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://chapeira.wfbtecnologia.com.br",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });

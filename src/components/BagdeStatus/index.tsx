@@ -1,44 +1,49 @@
-import { Badge, Icon } from "@chakra-ui/react"
-import { InvoiceStatus } from "@services/hooks/Dtos/InvoiceDto"
+import {  Icon, Flex, Td, Badge, Box } from "@chakra-ui/react"
+
 import { MdDone, MdClose, MdDoNotDisturb } from "react-icons/md"
-export function GreenStatus() {
+
+
+interface StatusProps  {
+  status: boolean;
+}
+
+export function PaidStatus() {
   return (
-    <Badge
-    colorScheme="green"
-    >
-      <Icon as={MdDone}/>
-    </Badge>
+    <Td>
+      <Flex>
+        <Badge
+          size="xsm"
+          fontSize="sm"
+          colorScheme="green"
+          >
+          <Icon as={MdDone}/>
+        </Badge>
+      </Flex>
+    </Td>
   )
 }
 
-export function GrayStatus() {
+export function UnPaidStatus() {
+
   return (
-    <Badge 
-      colorScheme="gray"
-    >
-      <Icon as={MdDoNotDisturb}/>
-    </Badge>
+    <Td>
+      <Flex>
+        <Badge
+          size="xsm"
+          fontSize="sm"
+          colorScheme="red">
+            <Icon as={MdClose}/>
+        </Badge>
+      </Flex>
+    </Td>
   )
 }
 
-export function RedStatus() {
-  return (
-    <Badge
-      colorScheme="red"
-    >
-      <Icon as={MdClose}/>
-    </Badge>
-  )
-}
-
-export const  InvoiceStatusBadge = ({status} : {status: InvoiceStatus}) => {
-  switch(status as any) {
-    case "Pago":
-    case "pago":
+export function InvoiceStatusBadge({status }: StatusProps) {
+  switch(status ) {
     case true:
-      case InvoiceStatus.pago:
-      return <GreenStatus />
+      return (<PaidStatus />)
     case false:
-      return <RedStatus />
+      return (<UnPaidStatus />)
   }
 }

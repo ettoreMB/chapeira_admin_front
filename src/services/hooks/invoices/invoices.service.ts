@@ -1,8 +1,9 @@
 import { api } from "@services/api";
 import { queryClient } from "@services/queryClient";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-
+import dayjs from 'dayjs';
 import { InvoiceDto } from "../Dtos/InvoiceDto";
+import { convertMoneyValue } from "@services/utils";
 
 type GetInvoiceProps = {
   invoices: InvoiceDto[];
@@ -15,13 +16,14 @@ export async function getInvoices() {
     return {
       id: invoice.id,
       loja_sigla: invoice.Loja_Sigla,
-      Nota_Fiscal: invoice.Nota_Fiscal,
-      Data_Faturamento: invoice.Data_Faturamento,
-      Data_Vencimento: invoice.Data_Vencimento,
-      Valor_Nota: invoice.Valor_Nota,
-      Valor_Servicos: invoice.Valor_Servicos,
+      nota_fiscal: invoice.Nota_Fiscal,
+      faturamento: dayjs(invoice.Data_Faturamento).format('DD/MM/YYYY'),
+      vencimento: dayjs(invoice.Data_Vencimento).format('DD/MM/YYYY'),
+      valor_nota: convertMoneyValue(invoice.Valor_Nota),
+      valor_servicos: convertMoneyValue(invoice.Valor_Servicos),
       pago: invoice.Pago,
       pendente: invoice.Pendente,
+      data_pagamento: dayjs(invoice.Data_Pagamento).format('DD/MM/YYYY'),
     };
   });
   return invoices;
@@ -33,14 +35,14 @@ export function useInvoices() {
   });
 }
 
-export async function updatePaidInvoice(invoiceNumber: string) {
-  const response = await api.post(`/invoices/${invoiceNumber}/status=true`);
+export async function updatePaidInvoice(invoiceNumber: string, date: Date) {
+  const response = await api.post(`/invoices/${invoiceNumber}/?status=pago&date=${date}`);
   return response;
 }
 
 export const useUpdatePaidInvoice = () => {
   return useMutation(
-    (invoiceNumber: string) => updatePaidInvoice(invoiceNumber),
+    ({ invoiceNumber, date }: any) => updatePaidInvoice(invoiceNumber, date),
     {
       onMutate: async () => {
         await queryClient.cancelQueries(["invoices"]);

@@ -94,10 +94,10 @@ export default function FaturasIndex() {
                     <Th>valor nota</Th>
                     <Th>valor serviços</Th>
                     <Th>emissão</Th>
-                    <Th>pagamento</Th>
-                    <Th>pago</Th>
-                    <Th>pendente</Th>
-                    <Th width="8"></Th>
+                    <Th>Vencimento</Th>
+                    <Th>Data Pagamento</Th>
+                    <Th>Pago</Th>
+                    <Th></Th>
                   </Tr>
                 </Thead>
   
