@@ -10,13 +10,15 @@ interface InvoiceTableRowProps {
 export function InvoiceTableRow({ invoice }: InvoiceTableRowProps) {
   return (
     <Tr>
-      <TableTdText data={invoice.id} /> 
+      <TableTdText data={invoice.nota_fiscal} /> 
       <TableTdText data={invoice.loja_sigla} />
       <TableTdText  data={invoice.valor_nota} />
       <TableTdText  data={invoice.valor_servicos} />
       <TableTdText data={invoice.faturamento} />
       <TableTdText data={invoice.vencimento} />
-      <TableTdText data={invoice.data_pagamento} />
+      {invoice.data_pagamento === "Invalid Date" ? 
+        (<Text></Text>) : 
+        (<TableTdText data={invoice.data_pagamento} />)}
       <InvoiceStatusBadge status={invoice.pago}/>
       {invoice.pendente == true ? (
         <Td p='0' m='0'>

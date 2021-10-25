@@ -17,7 +17,7 @@ export type InvoiceDto = {
 export type InvoiceProps = {
   id: number;
   loja_sigla: string,
-  Nota_Fiscal: string;
+  nota_fiscal: string;
   faturamento: Date;
   vencimento: Date;
   valor_nota: number;
