@@ -24,7 +24,7 @@ export type InvoiceProps = {
   valor_servicos: number;
   pago: boolean
   pendente: boolean;
-  data_pagamento: Date | string;
+  data_pagamento?: Date | string;
 }
 
 export enum InvoiceStatus {
