@@ -6,28 +6,43 @@ import {
   Text,
   Button,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { Header } from "@components/Header";
 import { SideMenu } from "@components/SideMenu";
 import { api } from "@services/api";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useMutation } from "react-query";
 
 interface FileProps {
-  data: File;
+  file: File | any;
 }
 
 export default function ImportInvoice() {
-  // const createFile = useMutation( async (data: FileProps ) => {
-  //   const {data: response} = await api.post('/invoices/import', data)
+  const toast = useToast();
 
-  //   return response.data
-  // },
-  //  {
-  //   onSuccess: () => {
-  //     const message = "success"
-  //     alert(message)
-  //   }
-  // });
+  const createFile = useMutation( async (file: FileProps | any) => {
+    await api.post("/invoices/import", file);
+  },
+  {
+    onError: () => {
+      toast({
+        title: "Erro ao Importar Arquivo",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Arquivo Importado com sucesso",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      })
+    },
+  }
+  );
 
   const {
     register,
@@ -35,11 +50,11 @@ export default function ImportInvoice() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const handleSendFile = async (data: any) => {
+  const handleSendFile: SubmitHandler<FileProps> = async (data) => {
     const file = new FormData();
     file.append("file", data.file[0]);
-
-    await api.post("/invoices/import", file);
+    
+    await createFile.mutateAsync(file)
   };
   return (
     <Box>
@@ -83,8 +98,8 @@ export default function ImportInvoice() {
                 borderColor="yellow.400"
                 borderWidth={2}
               >
-                <Text>SP-SP, 001, 5000, 5500, 01/02/2021, 20/03/2021 </Text>
-                <Text>MG-BH, 002, 5000, 5500, 01/02/2021, 20/03/2021 </Text>
+                <Text>SP-SP,001,5000,5500,01/02/2021,20/03/2021 </Text>
+                <Text>MG-BH,002,5000,5500,01/02/2021,20/03/2021 </Text>
               </Box>
             </VStack>
           </Box>

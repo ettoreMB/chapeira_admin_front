@@ -89,6 +89,7 @@ export default function FaturasIndex() {
               <Table colorScheme="whiteAlpha">
                 <Thead>
                   <Tr>
+                    <Th>Status</Th>
                     <Th>Nota</Th>
                     <Th>Loja-sigla</Th>
                     <Th>valor nota</Th>
@@ -96,7 +97,7 @@ export default function FaturasIndex() {
                     <Th>emissão</Th>
                     <Th>Vencimento</Th>
                     <Th>Data Pagamento</Th>
-                    <Th>Pago</Th>
+                    
                     <Th></Th>
                   </Tr>
                 </Thead>

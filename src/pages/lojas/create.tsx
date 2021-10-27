@@ -84,11 +84,7 @@ export default function CreateStore() {
     }
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
+  const { register,handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(createStoreFormSchema),
   });
 
