@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-
+import dayjs from 'dayjs';
 import { api } from "../../api";
 import { IStoreDto } from "../Dtos/StoreDto";
 import { StoreDashBoardProps } from "../Dtos/StoreDto";
@@ -22,7 +22,7 @@ export async function getStores(): Promise<getStoresResponse | any> {
       responsavel_email: store.Responsavel_Email,
       url: store.URL,
       endereco: store.Loja_Endereco,
-      inicio: store.Insert_Date,
+      inicio: dayjs(store.Insert_Date).format('DD/MM/YYYY'),
       cidade: store.Loja_Cidade,
     };
   });

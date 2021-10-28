@@ -27,8 +27,9 @@ export default function FaturasIndex() {
   
   const [isPaid, setIsPaid] = useState(false);
   const [isPendent, setPendent] = useState(false);
+  const [sigla, setSigla] = useState('')
 
-  const invoices = data?.filter((invoice: InvoiceDto) => {
+  let invoices = data?.filter((invoice: InvoiceDto) => {
     if (isPaid) {
       return invoice.pago == true;
     } else if (isPendent) {
@@ -37,6 +38,13 @@ export default function FaturasIndex() {
       return data;
     }
   });
+
+  invoices = data?.filter((invoice: InvoiceDto) => {
+    if (sigla) {
+      return invoice.Loja_Sigla == sigla;
+    } 
+       return data;
+  })
 
   return (
     <>
@@ -48,27 +56,7 @@ export default function FaturasIndex() {
             <Heading size="lg" fontWeight="normal">
               Faturas
             </Heading>
-            <Input type="text" />
-            <Select
-              placeholder="status"
-              onChange={(e) => {
-                if (e.target.value === "paid") {
-                  setIsPaid(true);
-                }
-                if (e.target.value === "pendent") {
-                  setIsPaid(false);
-                  setPendent(true);
-                }
-                if (e.target.value === "") {
-                  setIsPaid(false);
-                  setPendent(false);
-                }
-              }}
-            >
-              <option value="paid">Pago</option>
-              <option value="pendent">Pentente</option>
-            </Select>
-            <Link href="/faturas/edit/loja3" passHref>
+            <Link href="/faturas/create" passHref>
               <Button
                 as="a"
                 size="sm"
@@ -79,6 +67,38 @@ export default function FaturasIndex() {
                 Criar Nova Nota
               </Button>
             </Link>
+          </Flex>
+          <Flex>
+          <Select
+            w='50'
+            placeholder="status"
+            onChange={(e) => {
+              if (e.target.value === "paid") {
+                setIsPaid(true);
+              }
+              if (e.target.value === "pendent") {
+                setIsPaid(false);
+                setPendent(true);
+              }
+              if (e.target.value === "") {
+                setIsPaid(false);
+                setPendent(false);
+              }
+            }}
+            >
+              <option value="paid">Pago</option>
+              <option value="pendent">Pentente</option>
+            </Select>
+            <Input  type='text' onChange={
+
+              (e) => {
+                e.preventDefault()
+                if(e.target.value === '') {
+                  setSigla("")
+                }
+                setSigla(e.target.value)
+              }
+              }/>
           </Flex>
             {isLoading ? (
             <Flex justify="center">
@@ -97,8 +117,6 @@ export default function FaturasIndex() {
                     <Th>emissão</Th>
                     <Th>Vencimento</Th>
                     <Th>Data Pagamento</Th>
-                    
-                    <Th></Th>
                   </Tr>
                 </Thead>
   

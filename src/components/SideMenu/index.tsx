@@ -24,8 +24,8 @@ export function SideMenu() {
   if (isDrawerSideBar) {
     return (
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay>
-          <DrawerContent bg="white" p="4">
+        <DrawerOverlay height="-webkit-fill-available">
+          <DrawerContent bg="white" p="4" maxHeight="-webkit-fill-available" >
             <DrawerCloseButton mt="6" />
             <DrawerHeader>Navegação</DrawerHeader>
             <DrawerBody>
