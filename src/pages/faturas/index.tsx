@@ -27,7 +27,6 @@ export default function FaturasIndex() {
   
   const [isPaid, setIsPaid] = useState(false);
   const [isPendent, setPendent] = useState(false);
-  const [sigla, setSigla] = useState('')
 
   let invoices = data?.filter((invoice: InvoiceDto) => {
     if (isPaid) {
@@ -39,13 +38,7 @@ export default function FaturasIndex() {
     }
   });
 
-  invoices = data?.filter((invoice: InvoiceDto) => {
-    if (sigla) {
-      return invoice.Loja_Sigla == sigla;
-    } 
-       return data;
-  })
-
+  
   return (
     <>
       <Header />
@@ -89,16 +82,7 @@ export default function FaturasIndex() {
               <option value="paid">Pago</option>
               <option value="pendent">Pentente</option>
             </Select>
-            <Input  type='text' onChange={
-
-              (e) => {
-                e.preventDefault()
-                if(e.target.value === '') {
-                  setSigla("")
-                }
-                setSigla(e.target.value)
-              }
-              }/>
+            
           </Flex>
             {isLoading ? (
             <Flex justify="center">
