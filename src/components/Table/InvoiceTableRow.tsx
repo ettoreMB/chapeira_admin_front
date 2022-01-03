@@ -51,7 +51,7 @@ export function InvoiceTableRow({ invoice }: InvoiceTableRowProps) {
 
   const handleUpdateStatus =  (nota: string) => {
     const today = dayjs().format('YYYY-MM-DD')  
-    updateStatus.mutate({nota: nota, date: today})
+    updateStatus.mutate({nota:nota, date: today})
   };
 
 
@@ -60,8 +60,8 @@ export function InvoiceTableRow({ invoice }: InvoiceTableRowProps) {
       <InvoiceStatusBadge status={invoice.pago}/>
       <TableTdText data={invoice.nota_fiscal} /> 
       <TableTdText data={invoice.loja_sigla} />
-      <TableTdText  data={invoice.valor_nota} />
-      <TableTdText  data={invoice.valor_servicos} />
+      <TableTdText data={invoice.valor_nota} />
+      <TableTdText data={invoice.valor_servicos} />
       <TableTdText data={invoice.faturamento} />
       <TableTdText data={invoice.vencimento} />
       {invoice.pendente == true ? (

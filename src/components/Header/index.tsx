@@ -27,8 +27,8 @@ export function Header() {
       mx="auto"
       px="6"
       align="center"
-      bg="blue.500"
-      color="white"
+      bg="black.500"
+      color="red"
     >
       {!isWideVersion && (
         <IconButton
