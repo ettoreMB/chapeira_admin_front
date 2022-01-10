@@ -60,7 +60,7 @@ export default function CreateStore() {
     async (store: CreateStoreFormData) => {
       const { data: response } = await api.post("/stores", store);
       return response.data;
-      // console.log(store);
+
     },
     {
       onError: () => {

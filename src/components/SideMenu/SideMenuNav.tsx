@@ -16,6 +16,9 @@ export function SideMenuNav() {
           <NavLink href="/faturas/create">Criar Fatura</NavLink>
           <NavLink href="/faturas/import">Importar Faturas</NavLink>
         </NavSection>
+        <NavSection title="Estabelecimentos">
+          <NavLink href="/estabelecimentos">Procurar Receita</NavLink>
+        </NavSection>
       </Stack>
     </Box>
   );
