@@ -27,7 +27,7 @@ export function Header() {
       mx="auto"
       px="6"
       align="center"
-      bg="black.500"
+      bg="blue.500"
       color="red"
     >
       {!isWideVersion && (
