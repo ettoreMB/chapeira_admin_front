@@ -5,10 +5,9 @@ export const api = axios.create({
 });
 
 export const estabelecimentosApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_ESTABELECIMENTOS_URL,
+  baseURL: process.env.NEXT_PUBLIC_ESTABELECIMENTOS_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   },
-
 });
 

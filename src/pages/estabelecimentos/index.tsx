@@ -10,14 +10,14 @@ import { Input } from '@components/Form/Input';
 import { useMutation } from 'react-query';
 import { queryClient } from "../../services/queryClient";
 import { estabelecimentosApi } from '@services/api';
-import axios from 'axios';
+
 
 type SearchCNPJFormData = {
   cnpj: string;
 }
 
 const searchCnpjSchema = yup.object().shape({
-  cnpj: yup.number().required('CNPJ Obrigatório')
+  cnpj: yup.string().required('CNPJ Obrigatório')
 })
 
 
@@ -26,9 +26,10 @@ export default function Home()   {
 
   const searchCnpj = useMutation(
     async (cnpj: SearchCNPJFormData) => {
-    const {data: response} = await estabelecimentosApi.post("/search", cnpj)
-    console.log(response.data)
-    return response.data   
+      
+        const {data: response} = await estabelecimentosApi.post("/search", cnpj)
+        return response.data 
+      
     },
     {
       onError: () => {
@@ -77,7 +78,7 @@ export default function Home()   {
         onSubmit={handleSubmit(handleSearchCNPJ)}
       >
         <Center h='400px' w='100%' padding={'100'}>
-          <Input {...register('cnpj')} error={errors.cnpj} placeholder='CNPJ'/>
+          <Input type='text' {...register('cnpj')} error={errors.cnpj} placeholder='CNPJ'/>
           <Button ml='5px' bg='cyan.700' color='white' type="submit">
             Pesquisar
           </Button>
