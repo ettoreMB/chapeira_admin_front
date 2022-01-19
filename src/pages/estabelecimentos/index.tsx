@@ -10,6 +10,7 @@ import { Input } from '@components/Form/Input';
 import { useMutation } from 'react-query';
 import { queryClient } from "../../services/queryClient";
 import { estabelecimentosApi } from '@services/api';
+import { Header } from '@components/Header';
 
 
 type SearchCNPJFormData = {
@@ -27,9 +28,8 @@ export default function Home()   {
   const searchCnpj = useMutation(
     async (cnpj: SearchCNPJFormData) => {
       
-        const {data: response} = await estabelecimentosApi.post("/search", cnpj)
+        const {data: response} = await estabelecimentosApi.post("/estabelecimentos/search", cnpj)
         return response.data 
-      
     },
     {
       onError: () => {
@@ -72,6 +72,7 @@ export default function Home()   {
       <Head>
         <title>Pesquisa de estabelecimentos</title>
       </Head>
+      <Header />
       <Box
         flex="1"  
         as="form"
