@@ -24,7 +24,7 @@ const searchCnpjSchema = yup.object().shape({
 
 export default function Home()   {
   const toast = useToast();
-
+  const [cnpj, setCnpj] = useState("")
   const searchCnpj = useMutation(
     async (cnpj: SearchCNPJFormData) => {
       

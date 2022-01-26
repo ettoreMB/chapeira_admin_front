@@ -19,7 +19,7 @@ import { InvoiceTableRow } from "@components/Table/InvoiceTableRow";
 import { InvoiceDto } from "@services/hooks/Dtos/InvoiceDto";
 import { useInvoices } from "@services/hooks/invoices/invoices.service";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiAddLine } from "react-icons/ri";
 
 export default function FaturasIndex() {
@@ -27,15 +27,19 @@ export default function FaturasIndex() {
   
   const [isPaid, setIsPaid] = useState(false);
   const [isPendent, setPendent] = useState(false);
-
+  const [noteNumber, setNoteNumber] = useState('');
+ 
   let invoices = data?.filter((invoice: InvoiceDto) => {
     if (isPaid) {
       return invoice.pago == true;
     } else if (isPendent) {
       return invoice.pendente == true;
+    } else if (noteNumber != "") {
+      return invoice.nota_fiscal == noteNumber
     } else {
       return data;
     }
+    
   });
 
   
@@ -82,6 +86,7 @@ export default function FaturasIndex() {
               <option value="paid">Pago</option>
               <option value="pendent">Pentente</option>
             </Select>
+            <Input type="search" value={noteNumber} onChange={(e) => {setNoteNumber(e.target.value)}}/>
             
           </Flex>
             {isLoading ? (

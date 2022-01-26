@@ -19,7 +19,6 @@ import { RiAddLine } from "react-icons/ri";
 import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 
 export default function LojasIndex() {
-  const { onOpen } = useGetStoreModal();
 
   const { data, isLoading, error } = useGetStores();
 
