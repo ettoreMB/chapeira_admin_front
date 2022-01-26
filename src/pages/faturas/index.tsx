@@ -16,7 +16,7 @@ import {
 import { Header } from "@components/Header";
 import { SideMenu } from "@components/SideMenu";
 import { InvoiceTableRow } from "@components/Table/InvoiceTableRow";
-import { InvoiceDto } from "@services/hooks/Dtos/InvoiceDto";
+import { InvoiceDto, InvoiceProps } from "@services/hooks/Dtos/InvoiceDto";
 import { useInvoices } from "@services/hooks/invoices/invoices.service";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ export default function FaturasIndex() {
   const [isPendent, setPendent] = useState(false);
   const [noteNumber, setNoteNumber] = useState('');
  
-  let invoices = data?.filter((invoice: InvoiceDto) => {
+  let invoices = data?.filter((invoice: InvoiceProps) => {
     if (isPaid) {
       return invoice.pago == true;
     } else if (isPendent) {
