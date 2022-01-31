@@ -2,7 +2,7 @@ export type Store = {
   id: string;
   loja: string;
   loja_sigla: string;
-  ativo: boolean;
+  ativo: string;
   cnpj: number;
   responsavel: string;
   responsavel_email: string;

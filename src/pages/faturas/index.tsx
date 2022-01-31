@@ -36,9 +36,9 @@ export default function FaturasIndex() {
       return invoice.pendente == true;
     } else if (noteNumber != "") {
       return invoice.nota_fiscal == noteNumber
-    } else {
-      return data;
     }
+      return data;
+    
     
   });
 
@@ -85,8 +85,8 @@ export default function FaturasIndex() {
             >
               <option value="paid">Pago</option>
               <option value="pendent">Pentente</option>
-            </Select>
-            <Input type="search" value={noteNumber} onChange={(e) => {setNoteNumber(e.target.value)}}/>
+          </Select>
+          <Input type="search" value={noteNumber} onChange={(e) => {setNoteNumber(e.target.value)}}/>
             
           </Flex>
             {isLoading ? (

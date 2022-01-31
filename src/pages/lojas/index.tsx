@@ -5,22 +5,36 @@ import {
   Heading,
   Icon,
   Input,
+  Select,
   Spinner,
+  Text
 } from "@chakra-ui/react";
 import { Header } from "@components/Header";
 import { LoadingError } from "@components/LoadingError";
 import { SideMenu } from "@components/SideMenu";
 import { StoreAccordion } from "@components/Table/StoreAccordion";
-import { Store } from "@services/hooks/Dtos/StoreDto";
+import { IStoreDto, Store } from "@services/hooks/Dtos/StoreDto";
 import { useGetStores } from "@services/hooks/stores/stores.service";
 import Link from "next/link";
+import { useState } from "react";
 import { RiAddLine } from "react-icons/ri";
 
-import { useGetStoreModal } from "../../contexts/GetStoreModalContext";
 
 export default function LojasIndex() {
 
   const { data, isLoading, error } = useGetStores();
+  const [isActive, setIsActive] = useState(false);
+  const [isNotActive, setIsNotActive] = useState(false);
+
+  let stores = data?.stores.filter((store: Store) => {
+    if (isActive) {
+      return store.ativo == 'Sim';
+    } else if(isNotActive) {
+      return store.ativo == 'Nao';
+    }
+      return data.stores;
+  });
+
 
   return (
     <>
@@ -45,7 +59,31 @@ export default function LojasIndex() {
               </Button>
             </Link>
           </Flex>
-          <Input type="text" />
+          <Flex>
+            <Select
+              w='50'
+              onChange={(e) => {
+                if (e.target.value === "Sim") {
+                  setIsActive(true);
+                }
+                if (e.target.value === "Nao") {
+                  setIsActive(false);
+                  setIsNotActive(true);
+                }
+                if (e.target.value === "") {
+                  setIsActive(false);
+                  setIsNotActive(false);
+                }
+                return data
+              }}
+              >
+                <option value="">Status</option>
+                <option value="Sim">Ativos</option>
+                <option value="Nao">Inativas</option>
+            </Select>
+            <Input type="text" />
+          </Flex>
+         
           {isLoading ? (
             <Flex justify="center">
               <Spinner />
@@ -54,7 +92,7 @@ export default function LojasIndex() {
             <LoadingError text={"Error Ao Carregar os Dados"} />
           ) : (
             <>
-              {data?.stores.map((store: Store) => {
+             {stores.map((store: Store) => {
                 return <StoreAccordion stores={store} key={store.id} />;
               })}
             </>
