@@ -50,7 +50,7 @@ export default function Store() {
 
   const {
     query: { sigla },
-  } = useRouter();
+    } = useRouter();
 
   const { isLoading, isError, data } = useQuery<any, Error>(
     ["store", sigla],

@@ -25,16 +25,19 @@ export default function LojasIndex() {
   const { data, isLoading, error } = useGetStores();
   const [isActive, setIsActive] = useState(false);
   const [isNotActive, setIsNotActive] = useState(false);
+  const [status, setStatus] = useState({
+    active: false,
+    inactive: false,
+  })
 
   let stores = data?.stores.filter((store: Store) => {
-    if (isActive) {
+    if (status.active) {
       return store.ativo == 'Sim';
-    } else if(isNotActive) {
+    } else if(status.inactive) {
       return store.ativo == 'Nao';
     }
       return data.stores;
   });
-
 
   return (
     <>
@@ -61,18 +64,16 @@ export default function LojasIndex() {
           </Flex>
           <Flex>
             <Select
-              w='50'
+              w='60'
               onChange={(e) => {
                 if (e.target.value === "Sim") {
-                  setIsActive(true);
+                  setStatus({...status, active: true })
                 }
                 if (e.target.value === "Nao") {
-                  setIsActive(false);
-                  setIsNotActive(true);
+                  setStatus({...status, active: false, inactive: true })
                 }
                 if (e.target.value === "") {
-                  setIsActive(false);
-                  setIsNotActive(false);
+                  setStatus({...status, active: false, inactive: false})
                 }
                 return data
               }}

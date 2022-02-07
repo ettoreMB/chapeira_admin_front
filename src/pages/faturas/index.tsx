@@ -24,7 +24,6 @@ import { RiAddLine } from "react-icons/ri";
 
 export default function FaturasIndex() {
   const { data, isLoading } = useInvoices();
-  
   const [isPaid, setIsPaid] = useState(false);
   const [isPendent, setPendent] = useState(false);
   const [noteNumber, setNoteNumber] = useState('');
@@ -38,17 +37,14 @@ export default function FaturasIndex() {
       return invoice.nota_fiscal == noteNumber
     }
       return data;
-    
-    
   });
 
-  
   return (
     <>
       <Header />
-      <Flex w="100%">
-        <SideMenu />
-        <Box flex="1" bg="white" p="8">
+     
+      <Box flex="1" minH={"91.3vh"} bg="white" padding={"100px"}>
+      <SideMenu />
           <Flex mb="8" align="center" justifyContent="space-between">
             <Heading size="lg" fontWeight="normal">
               Faturas
@@ -95,6 +91,7 @@ export default function FaturasIndex() {
             </Flex>) : 
             (
               <>
+              <Box overflowY={"auto"} maxH={"50vh"}>
               <Table colorScheme="whiteAlpha">
                 <Thead>
                   <Tr>
@@ -115,10 +112,10 @@ export default function FaturasIndex() {
                   ))}
                 </Tbody>
               </Table>
+              </Box>
             </>
             )}
-        </Box>
-      </Flex>
+      </Box>
     </>
   );
 }
