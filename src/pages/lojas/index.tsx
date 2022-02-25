@@ -38,7 +38,7 @@ export default function LojasIndex() {
     }
       return data.stores;
   });
-
+  
   return (
     <>
       <Header />

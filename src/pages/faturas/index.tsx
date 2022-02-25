@@ -42,80 +42,81 @@ export default function FaturasIndex() {
   return (
     <>
       <Header />
-     
-      <Box flex="1" minH={"91.3vh"} bg="white" padding={"100px"}>
-      <SideMenu />
-          <Flex mb="8" align="center" justifyContent="space-between">
-            <Heading size="lg" fontWeight="normal">
-              Faturas
-            </Heading>
-            <Link href="/faturas/create" passHref>
-              <Button
-                as="a"
-                size="sm"
-                fontSize="sm"
-                colorScheme="blue"
-                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+       <Flex w='100%'>
+        <SideMenu />
+        <Box flex="1"  bg="white"  p="8">
+            <Flex mb="8" align="center" justifyContent="space-between">
+              <Heading size="lg" fontWeight="normal">
+                Faturas
+              </Heading>
+              <Link href="/faturas/create" passHref>
+                <Button
+                  as="a"
+                  size="sm"
+                  fontSize="sm"
+                  colorScheme="blue"
+                  leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+                >
+                  Criar Nova Nota
+                </Button>
+              </Link>
+            </Flex>
+            <Flex>
+            <Select
+              w='50'
+              placeholder="status"
+              onChange={(e) => {
+                if (e.target.value === "paid") {
+                  setIsPaid(true);
+                }
+                if (e.target.value === "pendent") {
+                  setIsPaid(false);
+                  setPendent(true);
+                }
+                if (e.target.value === "") {
+                  setIsPaid(false);
+                  setPendent(false);
+                }
+              }}
               >
-                Criar Nova Nota
-              </Button>
-            </Link>
-          </Flex>
-          <Flex>
-          <Select
-            w='50'
-            placeholder="status"
-            onChange={(e) => {
-              if (e.target.value === "paid") {
-                setIsPaid(true);
-              }
-              if (e.target.value === "pendent") {
-                setIsPaid(false);
-                setPendent(true);
-              }
-              if (e.target.value === "") {
-                setIsPaid(false);
-                setPendent(false);
-              }
-            }}
-            >
-              <option value="paid">Pago</option>
-              <option value="pendent">Pentente</option>
-          </Select>
-          <Input type="search" value={noteNumber} onChange={(e) => {setNoteNumber(e.target.value)}}/>
-            
-          </Flex>
-            {isLoading ? (
-            <Flex justify="center">
-              <Spinner />
-            </Flex>) : 
-            (
-              <>
-              <Box overflowY={"auto"} maxH={"50vh"}>
-              <Table colorScheme="whiteAlpha">
-                <Thead>
-                  <Tr>
-                    <Th>Status</Th>
-                    <Th>Nota</Th>
-                    <Th>Loja-sigla</Th>
-                    <Th>valor nota</Th>
-                    <Th>valor serviços</Th>
-                    <Th>emissão</Th>
-                    <Th>Vencimento</Th>
-                    <Th>Data Pagamento</Th>
-                  </Tr>
-                </Thead>
-  
-                <Tbody>
-                  {invoices.map((invoice: any) => (
-                     <InvoiceTableRow invoice={invoice} key={invoice.id} />
-                  ))}
-                </Tbody>
-              </Table>
-              </Box>
-            </>
-            )}
-      </Box>
+                <option value="paid">Pago</option>
+                <option value="pendent">Pentente</option>
+            </Select>
+            <Input type="search" value={noteNumber} onChange={(e) => {setNoteNumber(e.target.value), setIsPaid(false), setPendent(false)}}/>
+              
+            </Flex>
+              {isLoading ? (
+              <Flex justify="center">
+                <Spinner />
+              </Flex>) : 
+              (
+                <>
+                <Box overflowY={"auto"} maxH={"50vh"}>
+                <Table colorScheme="whiteAlpha">
+                  <Thead>
+                    <Tr>
+                      <Th>Status</Th>
+                      <Th>Nota</Th>
+                      <Th>Loja-sigla</Th>
+                      <Th>valor nota</Th>
+                      <Th>valor serviços</Th>
+                      <Th>emissão</Th>
+                      <Th>Vencimento</Th>
+                      <Th>Data Pagamento</Th>
+                    </Tr>
+                  </Thead>
+    
+                  <Tbody>
+                    {invoices.map((invoice: any) => (
+                      <InvoiceTableRow invoice={invoice} key={invoice.id} />
+                    ))}
+                  </Tbody>
+                </Table>
+                </Box>
+              </>
+              )}
+        </Box>
+      </Flex>
     </>
   );
 }

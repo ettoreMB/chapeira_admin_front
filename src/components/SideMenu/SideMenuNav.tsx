@@ -5,7 +5,7 @@ import { NavSection } from "./NavSection";
 
 export function SideMenuNav() {
   return (
-    <Box marginTop="18">
+    <Box>
       <Stack spacing="12" align="center">
         <NavSection title="LOJAS">
           <NavLink href="/lojas">Lista de Lojas</NavLink>
